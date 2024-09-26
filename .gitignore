@@ -1,4 +1,5 @@
 .idea/
+.idea/**/*.xml
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,visualstudiocode
 
