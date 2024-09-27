@@ -4,7 +4,6 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/supabase/supabase-server-client'
-import {Provider} from '@supabase/auth-js'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
@@ -47,30 +46,39 @@ export async function signup(formData: FormData) {
   redirect('/')
 }
 
-async function signInWithOAuthProvider(provider: Provider) {
-  const supabase = createClient()
-
-  const {data, error} = await supabase.auth.signInWithOAuth({
-    provider,
-    options: {
-      redirectTo: 'http://localhost:3000/auth/callback',
-    }
-  })
-
-  if (error || !data.url) {
+export async function redirectOrHandleOAuthError(error: unknown, url?: string) {
+  if (error || !url) {
     console.log(error)
     redirect('/error')
   }
 
   revalidatePath('/', 'layout')
-  redirect(data.url)
+  redirect(url)
 }
 
 export async function loginWithGoogle() {
-  await signInWithOAuthProvider('google')
+  const supabase = createClient()
+
+  const {data, error} = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'http://localhost:3000/auth/callback',
+    }
+  })
+
+  await redirectOrHandleOAuthError(error, data.url ?? undefined);
 }
 
 export async function loginWithGithub() {
-  await signInWithOAuthProvider('github')
+  const supabase = createClient()
+
+  const {data, error} = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: 'http://localhost:3000/auth/callback',
+    }
+  })
+
+  await redirectOrHandleOAuthError(error, data.url ?? undefined);
 }
 
