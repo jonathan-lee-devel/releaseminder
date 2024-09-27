@@ -1,5 +1,6 @@
 import {login, signup} from "@/app/login/actions";
 import SocialLogin from "@/app/components/login/SocialLogin";
+import DrawerDemo from "@/app/components/DrawerDemo";
 
 export default async function LoginPage() {
   return (
@@ -33,19 +34,19 @@ export default async function LoginPage() {
             </div>
 
             <div className="!mt-8">
-              <button formAction={login} type="button"
+              <button formAction={login} type="submit"
                       className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                 Sign In
               </button>
             </div>
             <div className="!mt-8">
-              <button formAction={signup} type="button"
+              <button formAction={signup} type="submit"
                       className="w-full shadow-xl py-2.5 px-4 text-sm font-semibold rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                 Sign Up
               </button>
             </div>
             <div>
-              <SocialLogin/>
+              <SocialLogin />
             </div>
           </form>
         </div>

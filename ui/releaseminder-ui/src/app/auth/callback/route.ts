@@ -23,6 +23,7 @@ export async function GET(request: Request) {
         return NextResponse.redirect(`${origin}${next}`)
       }
     }
+    console.log(error);
   }
 
   // return the user to an error page with instructions
