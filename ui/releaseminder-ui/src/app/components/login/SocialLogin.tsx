@@ -1,8 +1,15 @@
+'use client'
+
 import {loginWithGoogle} from "@/app/login/actions";
+import {motion} from "framer-motion";
 
 export default function SocialLogin() {
   return (
-    <div className="flex flex-col gap-5 p-10">
+    <motion.div animate={{
+      scale: [1, 1, 1, 1, 1, 1],
+      rotate: [0, 90, 180, 270, 360, 0],
+      borderRadius: ["20%", "20%", "50%", "50%", "20%"],
+    }} className="flex flex-col gap-5 p-10">
       <button
         formAction={loginWithGoogle}
         type="submit"
@@ -20,6 +27,6 @@ export default function SocialLogin() {
 
         Login with Google
       </button>
-    </div>
+    </motion.div>
   )
 }
