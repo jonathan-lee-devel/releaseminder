@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/lib/supabase/supabase-server-client'
+import {Provider} from '@supabase/auth-js'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
@@ -47,3 +48,31 @@ export async function signup(formData: FormData) {
   revalidatePath('/', 'layout')
   redirect('/')
 }
+
+async function signInWithOAuthProvider(provider: Provider) {
+  const supabase = createClient()
+
+  const {data, error} = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: 'http://localhost:3000/auth/callback',
+    }
+  })
+
+  if (error) {
+    console.log(error)
+    redirect('/error')
+  }
+
+  revalidatePath('/', 'layout')
+  redirect(data.url)
+}
+
+export async function loginWithGoogle() {
+  await signInWithOAuthProvider('google')
+}
+
+export async function loginWithGithub() {
+  await signInWithOAuthProvider('github')
+}
+
