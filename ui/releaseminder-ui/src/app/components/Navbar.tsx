@@ -4,6 +4,15 @@ import {Button} from "@/components/ui/button";
 import {DarkModeToggle} from "@/app/components/DarkModeToggle";
 import {useToast} from "@/hooks/use-toast";
 import Image from "next/image";
+import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
+  DropdownMenuLabel, DropdownMenuPortal,
+  DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import {redirect} from "next/navigation";
 
 export default function Navbar() {
   const {toast} = useToast()
@@ -13,11 +22,72 @@ export default function Navbar() {
       className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <Image src="favicon.ico" className="h-8" alt="Flowbite Logo"/>
+          <Image src="/favicon.ico" width={'50'} height={'50'} className="h-8" alt="ReleaseMinder Logo"/>
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ReleaseMinder</span>
         </a>
         <div className="flex md:order-2 space-x-1 md:space-x-0 rtl:space-x-reverse">
           <div className={'mx-5'}>
+            <Button variant={'outline'} asChild>
+              <Link href={'/'}>Home</Link>
+            </Button>
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">User Menu</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator/>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  Profile
+                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={'/signup'}>Sign Up</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={'/login'}>Log In</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  Keyboard shortcuts
+                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator/>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuItem>Email</DropdownMenuItem>
+                      <DropdownMenuItem>Message</DropdownMenuItem>
+                      <DropdownMenuSeparator/>
+                      <DropdownMenuItem>More...</DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+                <DropdownMenuItem>
+                  New Team
+                  <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator/>
+              <DropdownMenuItem>GitHub</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem disabled>API</DropdownMenuItem>
+              <DropdownMenuSeparator/>
+              <DropdownMenuItem>
+                <Link href={'/logout'}>Log out</Link>
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <div className={'mx-5 pr-5'}>
+
+          </div>
+          <div className={'mx-5 pr-5'}>
             <Button onClick={() => {
               toast({
                 title: 'Hello world!',
@@ -25,7 +95,7 @@ export default function Navbar() {
               })
             }}>Click Me</Button>
           </div>
-          <DarkModeToggle />
+          <DarkModeToggle/>
           <button data-collapse-toggle="navbar-sticky" type="button"
                   className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                   aria-controls="navbar-sticky" aria-expanded="false">
