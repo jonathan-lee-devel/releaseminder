@@ -1,10 +1,12 @@
 import {loginWithGithub, loginWithGoogle} from "@/app/login/actions";
 import DrawerDemo from "@/app/components/DrawerDemo";
+import AlertDialogDemo from "@/app/components/AlertDialogDemo";
 
 export default function SocialLogin() {
   return (
     <div className="flex flex-col gap-5 p-10">
       <DrawerDemo />
+      <AlertDialogDemo />
       <button
         formAction={loginWithGoogle}
         type="submit"

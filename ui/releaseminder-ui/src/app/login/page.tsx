@@ -1,6 +1,5 @@
 import {login, signup} from "@/app/login/actions";
 import SocialLogin from "@/app/components/login/SocialLogin";
-import DrawerDemo from "@/app/components/DrawerDemo";
 
 export default async function LoginPage() {
   return (
@@ -9,10 +8,10 @@ export default async function LoginPage() {
         <div className="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
           <div>
             <h2 className="lg:text-5xl text-4xl font-extrabold lg:leading-[55px] text-gray-800">
-              Seamless Login for Exclusive Access
+              Planning and Release Tracking Software
             </h2>
-            <p className="text-sm mt-6 text-gray-800">Immerse yourself in a hassle-free login journey with our
-              intuitively designed login form. Effortlessly access your account.</p>
+            <p className="text-sm mt-6 text-gray-800">Created <span className={'underline'}>by</span> Software
+              Engineers <span className={'underline'}>for</span> Software Engineers.</p>
           </div>
 
           <form className="max-w-md md:ml-auto w-full">
