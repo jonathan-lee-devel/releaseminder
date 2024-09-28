@@ -46,10 +46,6 @@ const Editor: FC<EditorProps> = ({ markdown, diffMarkdown, editorRef, isReadOnly
           toolbarContents: () => (
             <DiffSourceToggleWrapper>
               <UndoRedo />
-              <BoldItalicUnderlineToggles />
-              <CodeToggle />
-              <InsertImage />
-              <InsertTable />
             </DiffSourceToggleWrapper>
           )
         })
