@@ -1,8 +1,7 @@
-import { Module } from '@nestjs/common';
-import { ValidationService } from './validation.service';
+import {Module} from '@nestjs/common';
 
 @Module({
-  providers: [ValidationService],
-  exports: [ValidationService],
+  providers: [],
+  exports: [],
 })
 export class ValidationModule {}
