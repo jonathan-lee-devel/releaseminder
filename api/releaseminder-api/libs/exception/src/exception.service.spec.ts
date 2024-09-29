@@ -1,5 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ExceptionService } from './exception.service';
+import {Test, TestingModule} from '@nestjs/testing';
+
+import {ExceptionService} from './exception.service';
 
 describe('ExceptionService', () => {
   let service: ExceptionService;

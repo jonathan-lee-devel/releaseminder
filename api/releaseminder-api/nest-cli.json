@@ -99,6 +99,42 @@
       "compilerOptions": {
         "tsConfigPath": "libs/validation/tsconfig.lib.json"
       }
+    },
+    "rm-micro-dev-cycles": {
+      "type": "application",
+      "root": "apps/rm-micro-dev-cycles",
+      "entryFile": "main",
+      "sourceRoot": "apps/rm-micro-dev-cycles/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rm-micro-dev-cycles/tsconfig.app.json"
+      }
+    },
+    "rm-micro-issues": {
+      "type": "application",
+      "root": "apps/rm-micro-issues",
+      "entryFile": "main",
+      "sourceRoot": "apps/rm-micro-issues/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rm-micro-issues/tsconfig.app.json"
+      }
+    },
+    "rm-micro-releases": {
+      "type": "application",
+      "root": "apps/rm-micro-releases",
+      "entryFile": "main",
+      "sourceRoot": "apps/rm-micro-releases/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rm-micro-releases/tsconfig.app.json"
+      }
+    },
+    "rm-micro-backlogs": {
+      "type": "application",
+      "root": "apps/rm-micro-backlogs",
+      "entryFile": "main",
+      "sourceRoot": "apps/rm-micro-backlogs/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rm-micro-backlogs/tsconfig.app.json"
+      }
     }
   }
 }
