@@ -21,7 +21,7 @@ export class DbModule {
   static register({serviceName, schema}: DbModuleOptions): DynamicModule {
     const providers: Provider[] = [
       {
-        provide: `${serviceName}_DB_CONNECTION`,
+        provide: `${serviceName}_DATABASE_CONNECTION`,
         useFactory: (configService: ConfigService) => {
           const pool = new Pool({
             connectionString: configService.getOrThrow<string>(
