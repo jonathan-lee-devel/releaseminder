@@ -74,7 +74,7 @@ export class SplashBannerComponent {
   }
 
   getWelcomeMessage(isNewCustomer: boolean) {
-    return (isNewCustomer) ? 'Welcome to RoomyLedger.com' : 'Welcome Back to RoomyLedger.com';
+    return (isNewCustomer) ? 'Welcome to ReleaseMinder.io' : 'Welcome Back to ReleaseMinder.io';
   }
 
   getVerb(isNewCustomer: boolean) {
