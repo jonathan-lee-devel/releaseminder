@@ -1,9 +1,7 @@
 import {Module} from '@nestjs/common';
 
-import {MicroService} from './micro.service';
-
 @Module({
-  providers: [MicroService],
-  exports: [MicroService],
+  providers: [],
+  exports: [],
 })
 export class MicroModule {}
