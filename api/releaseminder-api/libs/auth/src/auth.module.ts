@@ -3,7 +3,6 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
 import {JwtModule} from '@nestjs/jwt';
 import {PassportModule} from '@nestjs/passport';
 
-import {EnvironmentVariables} from '../config/environment';
 import {SupabaseJwtStrategy} from './supabase/strategies/supabase-jwt.strategy';
 
 @Module({
@@ -11,9 +10,7 @@ import {SupabaseJwtStrategy} from './supabase/strategies/supabase-jwt.strategy';
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (
-        configService: ConfigService<EnvironmentVariables>,
-      ) => ({
+      useFactory: async (configService: ConfigService) => ({
         secret: configService.get('SUPABASE_JWT_SECRET'),
       }),
       inject: [ConfigService],

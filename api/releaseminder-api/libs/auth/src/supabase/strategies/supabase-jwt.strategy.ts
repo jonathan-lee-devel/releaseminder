@@ -8,7 +8,6 @@ import {UNAUTHORIZED} from 'nestjs-supabase-auth';
 import {ExtractJwt} from 'passport-jwt';
 import {ParsedQs} from 'qs';
 
-import {EnvironmentVariables} from '../../../config/environment';
 import {SupabaseAuthStrategy} from '../passport/passport-supabase.strategy';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class SupabaseJwtStrategy extends PassportStrategy(
   'supabase-jwt',
 ) {
   public constructor(
-    configService: ConfigService<EnvironmentVariables>,
+    configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {
     super({
