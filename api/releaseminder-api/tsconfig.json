@@ -16,6 +16,50 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/auth/auth": [
+        "libs/auth/src"
+      ],
+      "@app/auth/auth/*": [
+        "libs/auth/src/*"
+      ],
+      "@app/mail/mail": [
+        "libs/mail/src"
+      ],
+      "@app/mail/mail/*": [
+        "libs/mail/src/*"
+      ],
+      "@app/db/db": [
+        "libs/db/src"
+      ],
+      "@app/db/db/*": [
+        "libs/db/src/*"
+      ],
+      "@app/supabase/supabase": [
+        "libs/supabase/src"
+      ],
+      "@app/supabase/supabase/*": [
+        "libs/supabase/src/*"
+      ],
+      "@app/util/util": [
+        "libs/util/src"
+      ],
+      "@app/util/util/*": [
+        "libs/util/src/*"
+      ],
+      "@app/validation/validation": [
+        "libs/validation/src"
+      ],
+      "@app/validation/validation/*": [
+        "libs/validation/src/*"
+      ],
+      "@app/micro/micro": [
+        "libs/micro/src"
+      ],
+      "@app/micro/micro/*": [
+        "libs/micro/src/*"
+      ]
+    }
   }
 }
