@@ -61,7 +61,7 @@ import {SupabaseService} from './services/supabase/supabase.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'RoomyLedger';
+  title = 'ReleaseMinder';
   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
   protected isSidebarVisible: boolean = false;
   protected colorScheme: ColorScheme = 'light';
