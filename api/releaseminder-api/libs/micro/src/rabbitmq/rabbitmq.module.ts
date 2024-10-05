@@ -22,9 +22,13 @@ export class RabbitmqModule {
           return ClientProxyFactory.create({
             transport: Transport.RMQ,
             options: {
-              urls: [configService.getOrThrow<string>('RABBIT_MQ_URL')],
+              urls: [
+                configService.getOrThrow<string>(
+                  `${serviceName}_RABBITMQ_URLS`,
+                ),
+              ],
               queue: configService.getOrThrow<string>(
-                `RABBIT_MQ_${serviceName}_QUEUE`,
+                `${serviceName}_QUEUE_NAME`,
               ),
               queueOptions: {
                 durable: true,
