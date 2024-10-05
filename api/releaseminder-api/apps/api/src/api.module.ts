@@ -3,6 +3,7 @@ import {ConfigifyModule} from '@itgorillaz/configify/dist';
 import {Module} from '@nestjs/common';
 
 import {ApiController} from './controllers/api/api.controller';
+import {TestController} from './controllers/test/test.controller';
 import {ApiService} from './services/api/api.service';
 
 @Module({
@@ -30,7 +31,7 @@ import {ApiService} from './services/api/api.service';
       serviceName: 'SOURCE_CONTROL',
     }),
   ],
-  controllers: [ApiController],
+  controllers: [ApiController, TestController],
   providers: [ApiService],
 })
 export class ApiModule {}

@@ -68,9 +68,12 @@ export const UserAuthenticationStore = signalStore(
           patchState(store, {loggedInState: 'LOGGED_IN', tokens, userInfo});
         },
         userCheckIn: () => {
-          authService.checkIn({email: supabaseService.session?.user?.email ?? '', displayName: supabaseService.session?.user?.user_metadata['name']}).pipe(
+          authService.checkIn({email: 'jonathan', displayName: 'jonathan'}).pipe(
               take(1),
           ).subscribe();
+          // authService.checkIn({email: supabaseService.session?.user?.email ?? '', displayName: supabaseService.session?.user?.user_metadata['name']}).pipe(
+          //     take(1),
+          // ).subscribe();
         },
         logout: async () => {
           router.navigate([rebaseRoutePath(RoutePath.LOGOUT_IN_PROGRESS)])

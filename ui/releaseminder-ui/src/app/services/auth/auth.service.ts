@@ -3,14 +3,11 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {
-  rebaseRoutePath,
-  rebaseRoutePathAsString,
-  RoutePath,
-} from '../../app.routes';
+import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../app.routes';
 import {TokensDto} from '../../dtos/auth/TokensDto';
 import {UserProfile} from '../../dtos/auth/UserProfile';
 import {RouterUtils} from '../../util/router/Router.utils';
+import {TenantService} from '../tenant/tenant.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,13 +20,14 @@ export class AuthService {
   static readonly nextParam = 'next';
 
   constructor(
-    private httpClient: HttpClient,
-    private router: Router,
+    private readonly httpClient: HttpClient,
+    private readonly router: Router,
+    private readonly tenantService: TenantService,
   ) {}
 
   checkIn(userInfo: UserProfile) {
     return this.httpClient.post<{isAcknowledged: boolean}>(
-        `${environment.USERS_SERVICE_BASE_URL}/authenticated/check-in`,
+        this.tenantService.getFullApiPath(`${environment.USERS_SERVICE_BASE_URL}/authenticated/check-in`),
         userInfo,
     );
   }

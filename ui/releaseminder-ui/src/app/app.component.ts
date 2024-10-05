@@ -125,6 +125,7 @@ export class AppComponent implements OnInit {
         mode: environment.production ? 'production' : 'development',
       });
     }
+    this.userAuthenticationStore.userCheckIn();
     this.primengConfig.ripple = true;
     const config: AppConfig = {
       ripple: true,

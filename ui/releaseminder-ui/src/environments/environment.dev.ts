@@ -3,6 +3,7 @@ export const environment = {
   local: false,
   SNACKBAR_DURATION_MS: 5000,
   TOAST_DURATION_MS: 5000,
+  API_ENVIRONMENT: 'dev',
   STRIPE_LIFETIME_PAYMENT_URL: 'https://checkout.roomyledger.com/b/test_fZeg2b7h6dEQgvu7sv',
   STRIPE_MONTHLY_PAYMENT_URL: 'https://checkout.roomyledger.com/b/test_eVaaHR30Q6co1AA5kl',
   STRIPE_ANNUALLY_PAYMENT_URL: 'https://checkout.roomyledger.com/b/test_bIY7vFgRGfMYbbacMO',
