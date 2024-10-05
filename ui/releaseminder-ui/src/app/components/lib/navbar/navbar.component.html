@@ -1,15 +1,13 @@
 <mat-toolbar color="primary">
-  <ng-container *ngIf="userAuthenticationStore.loggedInState() === 'LOGGED_IN'">
-    <button (click)="sideNavToggleEvent.emit(true)" aria-label="Sidenav menu icon button" mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-  </ng-container>
+  <button (click)="sideNavToggleEvent.emit(true)" aria-label="Sidenav menu icon button" mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
   <p-button *ngIf="userAuthenticationStore.loggedInState() !== 'LOGGED_IN'"
             [routerLink]="rebaseRoutePath(RoutePath.LANDING_PAGE)" class="mx-4" data-testid="navbar-home-button">Home
   </p-button>
   <span class="example-spacer"></span>
-  <app-span-dark-mode [ngClass]="userAuthenticationStore.isDarkMode() ? 'pi pi-moon mr-2' : 'pi pi-sun mr-2'"/>
-  <p-inputSwitch (onChange)="handleDarkModeToggleChange($event)" [(ngModel)]="isDarkMode" class="pt-2 mr-2"/>
+  <app-span-dark-mode [ngClass]="userAuthenticationStore.isDarkMode() ? 'pi pi-moon mr-2' : 'pi pi-sun mr-2'" />
+  <p-inputSwitch (onChange)="handleDarkModeToggleChange($event)" [(ngModel)]="isDarkMode" class="pt-2 mr-2" />
   <ng-container *ngIf="userAuthenticationStore.loggedInState() === 'LOGGED_IN' && !notificationsStore.isLoading()">
     <button
       [matMenuTriggerFor]="notificationsMenu"
@@ -36,7 +34,7 @@
     </mat-menu>
   </ng-container>
   <ng-container *ngIf="userAuthenticationStore.loggedInState() === 'LOGGED_IN' && notificationsStore.isLoading()">
-    <mat-spinner class="ml-2" color="accent" diameter="28"/>
+    <mat-spinner class="ml-2" color="accent" diameter="28" />
   </ng-container>
   <ng-container *ngIf="!featureFlagsStore.isLoading() && userAuthenticationStore.loggedInState() !== 'LOADING'">
     <button
@@ -48,7 +46,7 @@
     </button>
   </ng-container>
   <ng-container *ngIf="featureFlagsStore.isLoading() || userAuthenticationStore.loggedInState() === 'LOADING'">
-    <mat-spinner color="accent" diameter="28"/>
+    <mat-spinner color="accent" diameter="28" />
   </ng-container>
   <mat-menu #menu="matMenu">
     <button data-featurebase-feedback mat-menu-item>

@@ -24,15 +24,13 @@ import {FooterComponent} from './components/lib/footer/footer.component';
 import {ApplicationMessageComponent} from './components/lib/messages/application-message/application-message.component';
 import {FreeTrialMessageComponent} from './components/lib/messages/free-trial-message/free-trial-message.component';
 import {PreAlphaMessageComponent} from './components/lib/messages/pre-alpha-message/pre-alpha-message.component';
-import {UpdateOrMaintenanceInProgressMessageComponent} from './components/lib/messages/update-or-maintenance-in-progress-message/update-or-maintenance-in-progress-message.component';
+import {
+  UpdateOrMaintenanceInProgressMessageComponent,
+} from './components/lib/messages/update-or-maintenance-in-progress-message/update-or-maintenance-in-progress-message.component';
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
 import {ApplicationMessageDto} from './dtos/application-messages/ApplicationMessageDto';
 import {FeatureFlagEnum} from './enums/FeatureFlag.enum';
-import {
-  AppConfig,
-  ColorScheme,
-  LayoutService,
-} from './layout/service/app.layout.service';
+import {AppConfig, ColorScheme, LayoutService} from './layout/service/app.layout.service';
 import {ApplicationMessageService} from './services/application-message/application-message.service';
 import {AuthService} from './services/auth/auth.service';
 import {SupabaseService} from './services/supabase/supabase.service';
@@ -121,7 +119,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeFeatureBaseScript();
     if (!environment.local) {
       vercelInject({
         framework: 'Angular',
@@ -241,24 +238,5 @@ export class AppComponent implements OnInit {
     } else {
       this.userAuthenticationStore.setLightModeEnabled();
     }
-  }
-
-  private initializeFeatureBaseScript() {
-    const script = this.document.createElement('script');
-    script.type = 'text/javascript';
-    script.innerHTML = `
-  Featurebase("initialize_feedback_widget", {
-    organization: "roomyledger",
-    theme: "dark",
-    ${this.getFeatureBasePlacement()}
-    locale: "en",
-    metadata: null
-  });`;
-    const body = this.document.getElementsByTagName('body')?.[0];
-    body?.appendChild(script);
-  }
-
-  private getFeatureBasePlacement(): string {
-    return window.innerWidth > 600 ? '"placement": "right",' : '';
   }
 }

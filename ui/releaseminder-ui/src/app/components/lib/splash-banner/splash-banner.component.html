@@ -41,21 +41,9 @@
     <div class="animate__animated animate__delay-1s animate__tada" *ngIf="featureFlagsStore.isSignInWithEmailEnabled()">
       <app-email-login-overlay-panel [isNewCustomer]="isNewCustomer()" />
     </div>
-    <div class="flex justify-center items-center text-center my-5">
+    <div class="flex justify-center items-center text-center mt-5">
     </div>
     <a *ngIf="isNewCustomer()" [routerLink]="rebaseRoutePath(RoutePath.LOGIN)" data-testid="have-an-account-sign-in" pButton>Already have an Account? Sign In</a>
     <a *ngIf="!isNewCustomer()" [routerLink]="rebaseRoutePath(RoutePath.LANDING_PAGE)" data-testid="dont-have-an-account-sign-up" pButton>Don't have an Account? Sign Up</a>
-    <p class="text-sm mt-4 mb-4 line-height-3">Available as a Web Application with support for mobile devices</p>
-    <div class="flex justify-content-center align-items-center">
-      <app-span-dark-mode class="mr-3">
-        <i class="pi pi-apple text-2xl"></i>
-      </app-span-dark-mode>
-      <app-span-dark-mode class="mr-3">
-        <i class="pi pi-android text-2xl"></i>
-      </app-span-dark-mode>
-      <app-span-dark-mode>
-        <i class="pi pi-globe text-2xl"></i>
-      </app-span-dark-mode>
-    </div>
   </div>
 </div>

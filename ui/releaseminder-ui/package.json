@@ -7,7 +7,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "pnpm run build:prod",
+    "build": "yarn run build:prod",
     "build:prod": "ng build --configuration production",
     "build:stage": "ng build --configuration stage",
     "watch": "ng build --watch --configuration development",
