@@ -135,6 +135,24 @@
       "compilerOptions": {
         "tsConfigPath": "apps/comms/tsconfig.app.json"
       }
+    },
+    "payments": {
+      "type": "application",
+      "root": "apps/payments",
+      "entryFile": "main",
+      "sourceRoot": "apps/payments/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/payments/tsconfig.app.json"
+      }
+    },
+    "clients": {
+      "type": "application",
+      "root": "apps/clients",
+      "entryFile": "main",
+      "sourceRoot": "apps/clients/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/clients/tsconfig.app.json"
+      }
     }
   }
 }
