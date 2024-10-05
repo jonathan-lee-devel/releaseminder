@@ -12,10 +12,16 @@ import {ApiService} from './services/api/api.service';
       serviceName: 'BUILD_SYSTEMS',
     }),
     RabbitmqModule.register({
+      serviceName: 'CLIENTS',
+    }),
+    RabbitmqModule.register({
       serviceName: 'COMMS',
     }),
     RabbitmqModule.register({
       serviceName: 'ISSUES',
+    }),
+    RabbitmqModule.register({
+      serviceName: 'PAYMENTS',
     }),
     RabbitmqModule.register({
       serviceName: 'RELEASES',
