@@ -1,5 +1,5 @@
 import {DynamicModule, Module, Provider} from '@nestjs/common';
-import {ConfigService} from '@nestjs/config';
+import {ConfigModule, ConfigService} from '@nestjs/config';
 import {ClientProxyFactory, Transport} from '@nestjs/microservices';
 
 import {RabbitmqService} from './services/rabbitmq.service';
@@ -9,6 +9,11 @@ interface RabbitmqModuleOptions {
 }
 
 @Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
   providers: [RabbitmqService],
   exports: [RabbitmqService],
 })
