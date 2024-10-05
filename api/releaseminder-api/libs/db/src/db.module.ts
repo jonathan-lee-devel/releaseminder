@@ -1,9 +1,42 @@
-import {Module} from '@nestjs/common';
+import {DynamicModule, Module, Provider} from '@nestjs/common';
+import {ConfigModule, ConfigService} from '@nestjs/config';
+import {drizzle} from 'drizzle-orm/node-postgres';
+import {Pool} from 'pg';
 
-import {DbService} from './db.service';
+interface DbModuleOptions {
+  serviceName: string;
+  schema: any;
+}
 
 @Module({
-  providers: [DbService],
-  exports: [DbService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
+  providers: [],
+  exports: [],
 })
-export class DbModule {}
+export class DbModule {
+  static register({serviceName, schema}: DbModuleOptions): DynamicModule {
+    const providers: Provider[] = [
+      {
+        provide: `${serviceName}_DB_CONNECTION`,
+        useFactory: (configService: ConfigService) => {
+          const pool = new Pool({
+            connectionString: configService.getOrThrow<string>(
+              `${serviceName}_DATABASE_URL`,
+            ),
+          });
+          return drizzle(pool, {schema: {...schema}});
+        },
+        inject: [ConfigService],
+      },
+    ];
+    return {
+      module: DbModule,
+      providers,
+      exports: providers,
+    };
+  }
+}
