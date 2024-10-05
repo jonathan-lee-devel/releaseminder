@@ -1,6 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { SourceControlController } from './source-control.controller';
-import { SourceControlService } from './source-control.service';
+import {Test, TestingModule} from '@nestjs/testing';
+
+import {SourceControlController} from './source-control.controller';
+import {SourceControlService} from './source-control.service';
 
 describe('SourceControlController', () => {
   let sourceControlController: SourceControlController;
@@ -11,7 +12,9 @@ describe('SourceControlController', () => {
       providers: [SourceControlService],
     }).compile();
 
-    sourceControlController = app.get<SourceControlController>(SourceControlController);
+    sourceControlController = app.get<SourceControlController>(
+      SourceControlController,
+    );
   });
 
   describe('root', () => {

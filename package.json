@@ -1,0 +1,17 @@
+{
+  "name": "releaseminder",
+  "version": "0.0.1",
+  "description": "Software Development - Project planning and release tracking software",
+  "scripts": {
+    "lint": "pnpm run api:lint && pnpm run ui:lint",
+    "api:lint": "cd api/releaseminder-api && pnpm run lint",
+    "ui:lint": "cd api/releaseminder-api && pnpm run lint",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^9.1.6"
+  }
+}

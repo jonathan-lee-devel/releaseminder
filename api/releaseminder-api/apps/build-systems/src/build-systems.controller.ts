@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
-import { BuildSystemsService } from './build-systems.service';
+import {Controller, Get} from '@nestjs/common';
+
+import {BuildSystemsService} from './build-systems.service';
 
 @Controller()
 export class BuildSystemsController {

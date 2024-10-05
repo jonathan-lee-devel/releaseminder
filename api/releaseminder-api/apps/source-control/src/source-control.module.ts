@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
-import { SourceControlController } from './source-control.controller';
-import { SourceControlService } from './source-control.service';
+import {Module} from '@nestjs/common';
+
+import {SourceControlController} from './source-control.controller';
+import {SourceControlService} from './source-control.service';
 
 @Module({
   imports: [],

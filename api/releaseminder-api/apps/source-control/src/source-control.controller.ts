@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
-import { SourceControlService } from './source-control.service';
+import {Controller, Get} from '@nestjs/common';
+
+import {SourceControlService} from './source-control.service';
 
 @Controller()
 export class SourceControlController {

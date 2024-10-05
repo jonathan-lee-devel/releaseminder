@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
-import { CommsService } from './comms.service';
+import {Controller, Get} from '@nestjs/common';
+
+import {CommsService} from './comms.service';
 
 @Controller()
 export class CommsController {

@@ -1,6 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { BuildSystemsController } from './build-systems.controller';
-import { BuildSystemsService } from './build-systems.service';
+import {Test, TestingModule} from '@nestjs/testing';
+
+import {BuildSystemsController} from './build-systems.controller';
+import {BuildSystemsService} from './build-systems.service';
 
 describe('BuildSystemsController', () => {
   let buildSystemsController: BuildSystemsController;
@@ -11,7 +12,9 @@ describe('BuildSystemsController', () => {
       providers: [BuildSystemsService],
     }).compile();
 
-    buildSystemsController = app.get<BuildSystemsController>(BuildSystemsController);
+    buildSystemsController = app.get<BuildSystemsController>(
+      BuildSystemsController,
+    );
   });
 
   describe('root', () => {
