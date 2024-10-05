@@ -1,9 +1,10 @@
-import {DynamicModule, Module, Provider} from '@nestjs/common';
+import {DynamicModule, Logger, Module, Provider} from '@nestjs/common';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {drizzle} from 'drizzle-orm/node-postgres';
 import {Pool} from 'pg';
 
 interface DbModuleOptions {
+  logger: Logger;
   serviceName: string;
   schema: any;
 }
@@ -18,7 +19,11 @@ interface DbModuleOptions {
   exports: [],
 })
 export class DbModule {
-  static register({serviceName, schema}: DbModuleOptions): DynamicModule {
+  static register({
+    logger,
+    serviceName,
+    schema,
+  }: DbModuleOptions): DynamicModule {
     const providers: Provider[] = [
       {
         provide: `${serviceName}_DATABASE_CONNECTION`,
@@ -28,6 +33,11 @@ export class DbModule {
               `${serviceName}_DATABASE_URL`,
             ),
           });
+          logger.log(
+            `Connected to ${configService.getOrThrow<string>(
+              `${serviceName}_DATABASE_URL`,
+            )}`,
+          );
           return drizzle(pool, {schema: {...schema}});
         },
         inject: [ConfigService],
