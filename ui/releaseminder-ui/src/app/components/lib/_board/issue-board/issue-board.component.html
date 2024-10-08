@@ -1,10 +1,26 @@
 <div class="shadow-2 border-round p-4 max-w-full">
   <div class="surface-ground">
     <div class="grid">
-      @for (section of demoStore.sortedByIdSections(); track $index) {
+      @if (demoStore.isLoading()) {
         <div class="col-12 lg:col-3 p-3">
-          <app-issue-section pDroppable (onDrop)="demoStore.handleDrop(section.id)" [sectionId]="section.id" [cardTitle]="section.title" />
+          <p-skeleton width="20rem" height="30rem" />
         </div>
+        <div class="col-12 lg:col-3 p-3">
+          <p-skeleton width="20rem" height="30rem" />
+        </div>
+        <div class="col-12 lg:col-3 p-3">
+          <p-skeleton width="20rem" height="30rem" />
+        </div>
+        <div class="col-12 lg:col-3 p-3">
+          <p-skeleton width="20rem" height="30rem" />
+        </div>
+      } @else {
+        @for (section of demoStore.sortedByIdSections(); track $index) {
+          <div class="col-12 lg:col-3 p-3">
+            <app-issue-section pDroppable (onDrop)="demoStore.handleDrop(section.id)" [sectionId]="section.id"
+                               [cardTitle]="section.title" />
+          </div>
+        }
       }
     </div>
   </div>

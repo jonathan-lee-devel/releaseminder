@@ -1,7 +1,8 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {DragDropModule} from 'primeng/dragdrop';
 import {MenuModule} from 'primeng/menu';
+import {SkeletonModule} from 'primeng/skeleton';
 
 import {DemoStore} from '../../../../+state/demo/demo.store';
 import {IssueSectionComponent} from '../issue-section/issue-section.component';
@@ -13,11 +14,18 @@ import {IssueSectionComponent} from '../issue-section/issue-section.component';
     MenuModule,
     DragDropModule,
     IssueSectionComponent,
+    SkeletonModule,
   ],
   templateUrl: './issue-board.component.html',
   styleUrl: './issue-board.component.scss',
 })
-export class IssueBoardComponent {
+export class IssueBoardComponent implements OnInit {
   items: MenuItem[] = [];
   protected readonly demoStore = inject(DemoStore);
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.demoStore.onLoadingComplete();
+    }, 2500);
+  }
 }

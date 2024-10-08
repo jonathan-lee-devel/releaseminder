@@ -5,12 +5,14 @@ import {IssueDto} from '../../dtos/issues/Issue.dto';
 import {IssueSectionDto} from '../../dtos/issues/IssueSection.dto';
 
 type DemoState = {
+  isLoading: boolean;
   currentlyDraggedIssue: IssueDto | null;
   currentlyDraggedIssueStartingSectionId: string | null;
   sections: IssueSectionDto[];
 }
 
 const initialState: DemoState = {
+  isLoading: true,
   currentlyDraggedIssue: null,
   currentlyDraggedIssueStartingSectionId: null,
   sections: [
@@ -123,6 +125,9 @@ export const DemoStore = signalStore(
           newSections.push(startingSection);
           newSections.push(targetSection);
           patchState(store, {currentlyDraggedIssue: null, currentlyDraggedIssueStartingSectionId: null, sections: newSections});
+        },
+        onLoadingComplete: () => {
+          patchState(store, {isLoading: false});
         },
       };
     }),
