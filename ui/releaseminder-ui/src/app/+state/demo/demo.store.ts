@@ -116,6 +116,9 @@ export const DemoStore = signalStore(
           if (!startingSection) {
             return;
           }
+          if (targetSection.id === startingSection.id) {
+            return;
+          }
           startingSection.issues = [...startingSection.issues.filter((issue) => issue.id !== currentlyDraggedIssue.id)];
           targetSection.issues.push(currentlyDraggedIssue);
           const newSections = [...store.sections()
