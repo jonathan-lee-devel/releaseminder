@@ -1,4 +1,5 @@
-import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
+import {computed} from '@angular/core';
+import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
 
 import {IssueDto} from '../../dtos/issues/Issue.dto';
 import {IssueSectionDto} from '../../dtos/issues/IssueSection.dto';
@@ -39,6 +40,17 @@ const initialState: DemoState = {
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         },
+        {
+          id: '3',
+          title: 'Investigate timeout',
+          iconClass: 'pi-search',
+          type: 'SPIKE',
+          assignee: 'Jonathan',
+          color: 'yellow',
+          dueDate: new Date().toISOString(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
       ],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -59,7 +71,7 @@ const initialState: DemoState = {
     },
     {
       id: '4',
-      title: 'Ready for Release',
+      title: 'Done',
       issues: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -112,6 +124,11 @@ export const DemoStore = signalStore(
           newSections.push(targetSection);
           patchState(store, {currentlyDraggedIssue: null, currentlyDraggedIssueStartingSectionId: null, sections: newSections});
         },
+      };
+    }),
+    withComputed((store) => {
+      return {
+        sortedByIdSections: computed(() => store.sections().sort((section, otherSection) => Number(section.id) - Number(otherSection.id))),
       };
     }),
 );
