@@ -1,6 +1,8 @@
 import {NgClass} from '@angular/common';
-import {Component, input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {DragDropModule} from 'primeng/dragdrop';
+
+import {DemoStore} from '../../../../+state/demo/demo.store';
 
 @Component({
   selector: 'app-issue-card',
@@ -18,4 +20,5 @@ export class IssueCardComponent {
   iconClass = input.required<string>();
   issueType = input.required<string>();
   dueDate = input.required<Date>();
+  protected demoStore = inject(DemoStore);
 }

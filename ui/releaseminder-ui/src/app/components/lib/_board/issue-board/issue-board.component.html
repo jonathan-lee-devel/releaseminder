@@ -3,16 +3,16 @@
   <div class="surface-ground">
     <div class="grid">
       <div class="col-12 lg:col-3 p-3">
-        <app-issue-section [cardTitle]="'To-Do'" />
+        <app-issue-section pDroppable (onDrop)="demoStore.handleDrop('1')" [sectionId]="'1'" [cardTitle]="'To-Do'" />
       </div>
       <div class="col-12 lg:col-3 p-3">
-        <app-issue-section [cardTitle]="'In Progress'" />
+        <app-issue-section pDroppable (onDrop)="demoStore.handleDrop('2')" [sectionId]="'2'" [cardTitle]="'In Progress'" />
       </div>
       <div class="col-12 lg:col-3 p-3">
-        <app-issue-section [cardTitle]="'Ready for QA'" />
+        <app-issue-section pDroppable (onDrop)="demoStore.handleDrop('3')" [sectionId]="'3'" [cardTitle]="'Ready for QA'" />
       </div>
       <div class="col-12 lg:col-3 p-3">
-        <app-issue-section [cardTitle]="'Ready for Release'" />
+        <app-issue-section pDroppable (onDrop)="demoStore.handleDrop('4')" [sectionId]="'4'" [cardTitle]="'Ready for Release'" />
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
-import {Component, input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {DragDropModule} from 'primeng/dragdrop';
 
+import {DemoStore} from '../../../../+state/demo/demo.store';
 import {IssueCardComponent} from '../issue-card/issue-card.component';
 
 @Component({
@@ -15,5 +16,12 @@ import {IssueCardComponent} from '../issue-card/issue-card.component';
 })
 export class IssueSectionComponent {
   cardTitle = input.required<string>();
+  sectionId = input.required<string>();
   dueDate: Date = new Date();
+
+  protected readonly demoStore = inject(DemoStore);
+
+  createDate(dateIsoString: string) {
+    return new Date(dateIsoString);
+  }
 }

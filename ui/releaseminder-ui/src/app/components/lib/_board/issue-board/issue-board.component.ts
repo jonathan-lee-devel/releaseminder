@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {DragDropModule} from 'primeng/dragdrop';
 import {MenuModule} from 'primeng/menu';
 
+import {DemoStore} from '../../../../+state/demo/demo.store';
 import {IssueSectionComponent} from '../issue-section/issue-section.component';
 
 @Component({
@@ -18,4 +19,5 @@ import {IssueSectionComponent} from '../issue-section/issue-section.component';
 })
 export class IssueBoardComponent {
   items: MenuItem[] = [];
+  protected readonly demoStore = inject(DemoStore);
 }
