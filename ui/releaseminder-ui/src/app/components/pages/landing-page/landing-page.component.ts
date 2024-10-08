@@ -19,10 +19,12 @@ import {PasswordModule} from 'primeng/password';
 import {StepperModule} from 'primeng/stepper';
 import {StyleClassModule} from 'primeng/styleclass';
 import {TabMenuModule} from 'primeng/tabmenu';
+import {TagModule} from 'primeng/tag';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 
 import {UserAuthenticationStore} from '../../../+state/auth/user-auth.store';
 import {rebaseRoutePath, RoutePath} from '../../../app.routes';
+import {FullIssueBoardComponent} from '../../lib/_board/full-issue-board/full-issue-board.component';
 import {IssueBoardComponent} from '../../lib/_board/issue-board/issue-board.component';
 import {
   ComponentsAndFeaturesSectionComponent,
@@ -66,6 +68,8 @@ import {SplashBannerComponent} from '../../lib/splash-banner/splash-banner.compo
     SplashBannerComponent,
     ComponentsAndFeaturesSectionComponent,
     IssueBoardComponent,
+    TagModule,
+    FullIssueBoardComponent,
   ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
@@ -76,6 +80,8 @@ export class LandingPageComponent implements OnInit {
   protected readonly userAuthenticationStore = inject(UserAuthenticationStore);
   activeTabLabel?: string = '';
   tabMenuItems: MenuItem[] = [];
+  items: MenuItem[] | undefined = [];
+  activeAssignee: number = 0;
 
   ngOnInit() {
     this.tabMenuItems = [
