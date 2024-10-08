@@ -15,4 +15,5 @@ import {IssueCardComponent} from '../issue-card/issue-card.component';
 })
 export class IssueSectionComponent {
   cardTitle = input.required<string>();
+  dueDate: Date = new Date();
 }

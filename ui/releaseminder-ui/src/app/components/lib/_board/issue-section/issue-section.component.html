@@ -3,7 +3,7 @@
     <span class="text-xl text-900 font-medium">{{ cardTitle() }}</span>
   </div>
   <ul pDroppable class="list-none p-0 m-0">
-    <app-issue-card [colorName]="'pink'" />
-    <app-issue-card [colorName]="'green'" />
+    <app-issue-card [colorName]="'pink'" [title]="'Text overlapping'" [iconClass]="'pi-thumbs-down'" [issueType]="'BUG'" [dueDate]="dueDate" />
+    <app-issue-card [colorName]="'green'" [title]="'Add secrets'" [iconClass]="'pi-thumbs-up'" [issueType]="'STORY'" [dueDate]="dueDate" />
   </ul>
 </div>
