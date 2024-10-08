@@ -1,0 +1,17 @@
+<li pDraggable [ngClass]="'bg-' + colorName() + '-50 ' + 'border-' + colorName() + '-500'" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between p-3 border-1 mb-3" style="border-radius: 10px;">
+  <div>
+    <div>
+                    <span class="inline-flex justify-content-center align-items-center w-2rem h-2rem border-circle border-1 border-green-200">
+                        <i [ngClass]="'text-' + colorName() + '-600'" class="pi pi-thumbs-down"></i>
+                    </span>
+      <span [ngClass]="'text-' + colorName() + '-700'" class="font-bold ml-2">Text overlapping</span>
+    </div>
+    <p [ngClass]="'text-' + colorName() + '-700'" class="mt-2 mb-0">Due <span class="font-medium">20/12/2021</span></p>
+  </div>
+  <div class="flex align-items-center justify-content-between md:justify-content-end mt-3 md:mt-0">
+    <span [ngClass]="'bg-' + colorName() + '-400 ' + 'text-' + colorName() + '-900'" class="font-bold text-sm py-1 px-2" style="border-radius: 10px">BUG</span>
+    <div class="text-right ml-3">
+      <span [ngClass]="'text-' + colorName() + '-700'" class="font-bold">Jonathan</span>
+    </div>
+  </div>
+</li>

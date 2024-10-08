@@ -23,6 +23,7 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
 
 import {UserAuthenticationStore} from '../../../+state/auth/user-auth.store';
 import {rebaseRoutePath, RoutePath} from '../../../app.routes';
+import {IssueBoardComponent} from '../../lib/_board/issue-board/issue-board.component';
 import {
   ComponentsAndFeaturesSectionComponent,
 } from '../../lib/landing-page/components-and-features-section/components-and-features-section.component';
@@ -64,6 +65,7 @@ import {SplashBannerComponent} from '../../lib/splash-banner/splash-banner.compo
     PricingPlansSectionComponent,
     SplashBannerComponent,
     ComponentsAndFeaturesSectionComponent,
+    IssueBoardComponent,
   ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
