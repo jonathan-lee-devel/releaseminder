@@ -1,7 +1,7 @@
 <li pDraggable [ngClass]="'bg-' + colorName() + '-50 ' + 'border-' + colorName() + '-500'" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between p-3 border-1 mb-3" style="border-radius: 10px;">
   <div>
     <div>
-                    <span class="inline-flex justify-content-center align-items-center w-2rem h-2rem border-circle border-1 border-green-200">
+                    <span [ngClass]="'border-' + colorName() + '-200'" class="inline-flex justify-content-center align-items-center w-2rem h-2rem border-circle border-1">
                         <i [ngClass]="'text-' + colorName() + '-600 pi ' + iconClass()" class="pi"></i>
                     </span>
       <span [ngClass]="'text-' + colorName() + '-700'" class="font-bold ml-2">{{ title() }}</span>
