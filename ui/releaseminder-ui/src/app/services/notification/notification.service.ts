@@ -3,16 +3,19 @@ import {Injectable} from '@angular/core';
 
 import {environment} from '../../../environments/environment';
 import {NotificationDto} from '../../dtos/notifications/Notification.dto';
+import {TenantService} from '../tenant/tenant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient, private readonly tenantService: TenantService) {}
 
   getAllNotificationsForUser() {
     return this.httpClient.get<NotificationDto[]>(
-        `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/for-user`,
+        this.tenantService.getFullApiPath(
+            `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/for-user`,
+        ),
     );
   }
 

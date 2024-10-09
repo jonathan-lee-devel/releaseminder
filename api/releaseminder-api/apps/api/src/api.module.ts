@@ -3,6 +3,8 @@ import {ConfigifyModule} from '@itgorillaz/configify/dist';
 import {Module} from '@nestjs/common';
 
 import {ApiController} from './controllers/api/api.controller';
+import {ApplicationMessagesController} from './controllers/application-messages/application-messages.controller';
+import {NotificationsController} from './controllers/notifications/notifications.controller';
 import {TestController} from './controllers/test/test.controller';
 import {ApiService} from './services/api/api.service';
 
@@ -31,7 +33,12 @@ import {ApiService} from './services/api/api.service';
       serviceName: 'SOURCE_CONTROL',
     }),
   ],
-  controllers: [ApiController, TestController],
+  controllers: [
+    ApiController,
+    ApplicationMessagesController,
+    NotificationsController,
+    TestController,
+  ],
   providers: [ApiService],
 })
 export class ApiModule {}
