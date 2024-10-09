@@ -57,8 +57,8 @@ const initialState: DemoState = {
           updatedAt: new Date().toISOString(),
         },
         {
-          id: '3',
-          title: 'Investigate timeout',
+          id: '4',
+          title: 'Investigate library',
           iconClass: 'pi-search',
           type: 'SPIKE',
           assignee: 'Timothy',
