@@ -15,6 +15,7 @@ import {RippleModule} from 'primeng/ripple';
 import {take, tap} from 'rxjs';
 
 import {UserAuthenticationStore} from '../../../../+state/auth/user-auth.store';
+import {FeatureFlagsStore} from '../../../../+state/feature-flags/feature-flags.store';
 import {FullIssueBoardComponent} from '../../../lib/_board/full-issue-board/full-issue-board.component';
 import {PreAlphaMessageComponent} from '../../../lib/messages/pre-alpha-message/pre-alpha-message.component';
 import {SplashBannerComponent} from '../../../lib/splash-banner/splash-banner.component';
@@ -51,6 +52,7 @@ import {SplashBannerComponent} from '../../../lib/splash-banner/splash-banner.co
 })
 export class LoginComponent implements OnInit {
   protected readonly userAuthenticationStore = inject(UserAuthenticationStore);
+  protected readonly featureFlagsStore = inject(FeatureFlagsStore);
 
   private static readonly nextParam = 'next';
   private readonly route = inject(ActivatedRoute);

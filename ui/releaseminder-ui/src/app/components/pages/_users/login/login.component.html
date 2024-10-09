@@ -1,8 +1,8 @@
 <div class="px-4 py-8 md:px-6 lg:px-8">
   <div class="flex flex-wrap">
     <div class="w-full lg:w-6 p-4 lg:p-7" style="background-color: rgba(255,255,255,.2)">
-      <div class="text-xl text-900 font-500 mb-3">Welcome to Bastion</div>
-      <p class="text-600 line-height-3 mt-0 mb-6">Quis vel eros donec ac odio tempor orci dapibus. In hac habitasse platea dictumst quisque.</p>
+      <div class="text-xl text-900 font-500 mb-3">Welcome to ReleaseMinder</div>
+      <p class="text-600 line-height-3 mt-0 mb-6">An open-source alternative to Jira aimed at improving performance and lowering costs</p>
       <ul class="list-none p-0 m-0">
         <li class="flex align-items-start mb-4">
           <div>
@@ -61,8 +61,16 @@
         <span class="text-600 font-normal text-sm">OR</span>
       </p-divider>
 
-      <button pButton pRipple label="Sign In with GitHub" icon="pi pi-github" class="w-full p-button-secondary"></button>
-      <button pButton pRipple label="Sign In with Google" icon="pi pi-google" class="w-full bg-blue-600 my-5"></button>
+      <button
+        *ngIf="featureFlagsStore.isSignInWithGitHubEnabled()"
+        [loading]="userAuthenticationStore.loggedInState() === 'LOADING'"
+        (click)="userAuthenticationStore.attemptSupabaseLoginWithGoogle()"
+        pButton pRipple label="Sign In with GitHub" icon="pi pi-github" class="w-full p-button-secondary"></button>
+      <button
+        *ngIf="featureFlagsStore.isSignInWithGoogleEnabled()"
+        [loading]="userAuthenticationStore.loggedInState() === 'LOADING'"
+        (click)="userAuthenticationStore.attemptSupabaseLoginWithGitHub()"
+        pButton pRipple label="Sign In with Google" icon="pi pi-google" class="w-full bg-blue-600 my-5"></button>
 
       <div class="mt-6 text-center text-600">
         Don't have an account? <a tabindex="0" class="font-medium text-blue-500">Sign up</a>
