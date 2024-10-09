@@ -5,12 +5,14 @@
   <ul class="list-none p-0 m-0">
     @for (issue of demoStore.getSectionById(sectionId())?.issues; track $index; ) {
       <app-issue-card
+        *ngIf="issue.isVisible"
         pDraggable
         (onDragStart)="demoStore.handleDragStart(issue, sectionId())"
         [colorName]="issue.color"
         [title]="issue.title"
         [iconClass]="issue.iconClass"
         [issueType]="issue.type"
+        [assignee]="issue.assignee"
         [dueDate]="createDate(issue.dueDate)"
       />
     }

@@ -19,6 +19,7 @@ export class IssueCardComponent {
   title = input.required<string>();
   iconClass = input.required<string>();
   issueType = input.required<string>();
+  assignee = input.required<string>();
   dueDate = input.required<Date>();
   protected demoStore = inject(DemoStore);
 }

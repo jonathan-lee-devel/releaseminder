@@ -1,6 +1,7 @@
 import {NgClass} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 
+import {DemoStore} from '../../../../+state/demo/demo.store';
 import {IssueBoardComponent} from '../issue-board/issue-board.component';
 
 @Component({
@@ -15,4 +16,11 @@ import {IssueBoardComponent} from '../issue-board/issue-board.component';
 })
 export class FullIssueBoardComponent {
   activeAssignee: number = 0;
+
+  protected readonly demoStore = inject(DemoStore);
+
+  updateActiveAssignee(index: number, assignee: string) {
+    this.activeAssignee = index;
+    this.demoStore.updateVisibilityOnAssigneeUpdate(assignee);
+  }
 }

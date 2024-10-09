@@ -27,6 +27,7 @@ const initialState: DemoState = {
           type: 'BUG',
           assignee: 'Jonathan',
           color: 'pink',
+          isVisible: true,
           dueDate: new Date().toISOString(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -38,6 +39,7 @@ const initialState: DemoState = {
           type: 'STORY',
           assignee: 'Jonathan',
           color: 'green',
+          isVisible: true,
           dueDate: new Date().toISOString(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -49,6 +51,19 @@ const initialState: DemoState = {
           type: 'SPIKE',
           assignee: 'Jonathan',
           color: 'yellow',
+          isVisible: true,
+          dueDate: new Date().toISOString(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        {
+          id: '3',
+          title: 'Investigate timeout',
+          iconClass: 'pi-search',
+          type: 'SPIKE',
+          assignee: 'Timothy',
+          color: 'yellow',
+          isVisible: true,
           dueDate: new Date().toISOString(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -98,6 +113,21 @@ export const DemoStore = signalStore(
         },
         getSectionById: (sectionId: string) => {
           return store.sections().find((section) => section.id === sectionId);
+        },
+        updateVisibilityOnAssigneeUpdate: (assignee: string) => {
+          const newSections = [...store.sections()];
+
+          newSections.forEach((section) => {
+            section.issues.forEach((issue) => {
+              if (assignee === '*' || issue.assignee === assignee) {
+                issue.isVisible = true;
+              } else {
+                issue.isVisible = false;
+              }
+            });
+          });
+
+          patchState(store, {sections: [...newSections]});
         },
         handleDragStart: (issue: IssueDto, sectionId: string) => {
           patchState(store, {currentlyDraggedIssue: issue, currentlyDraggedIssueStartingSectionId: sectionId});

@@ -8,4 +8,5 @@ export interface IssueDto extends Dto {
   assignee: string;
   createdAt: string;
   dueDate: string;
+  isVisible: boolean;
 }
