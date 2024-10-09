@@ -45,5 +45,9 @@
     </div>
     <a *ngIf="isNewCustomer()" [routerLink]="rebaseRoutePath(RoutePath.LOGIN)" data-testid="have-an-account-sign-in" pButton>Already have an Account? Sign In</a>
     <a *ngIf="!isNewCustomer()" [routerLink]="rebaseRoutePath(RoutePath.LANDING_PAGE)" data-testid="dont-have-an-account-sign-up" pButton>Don't have an Account? Sign Up</a>
+    <h3
+      class="lg:text-4xl md:text-2xl sm:text-2xl mt-5 font-bold mb-2">
+      Live Demo Below</h3>
+    <i class="pi pi-chevron-circle-down animate__animated animate__infinite animate__pulse text-4xl"></i>
   </div>
 </div>
