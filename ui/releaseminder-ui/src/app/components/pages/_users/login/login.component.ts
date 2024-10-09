@@ -6,6 +6,7 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
+import {DividerModule} from 'primeng/divider';
 import {InputGroupModule} from 'primeng/inputgroup';
 import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {InputTextModule} from 'primeng/inputtext';
@@ -43,6 +44,7 @@ import {SplashBannerComponent} from '../../../lib/splash-banner/splash-banner.co
     PreAlphaMessageComponent,
     SplashBannerComponent,
     FullIssueBoardComponent,
+    DividerModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
