@@ -2,7 +2,7 @@
   <div class="text-center my-6">
     <h1 class="lg:text-6xl md:text-4xl sm:text-4xl font-bold mb-1">{{ getWelcomeMessage(isNewCustomer()) }}</h1>
     <h2
-      class="lg:text-6xl md:text-4xl sm:text-4xl lg:mt-3 text-primary font-bold mb-4 animate__animated animate__infinite animate__pulse">
+      class="lg:text-6xl md:text-4xl sm:text-4xl lg:mt-3 text-primary font-bold mb-4 animate__animated animate__repeat-3 animate__pulse">
       An Open-Source Alternative to Jira</h2>
     <div *ngIf="featureFlagsStore.isSignInWithGoogleEnabled()" class="flex justify-center items-center text-center my-5">
       <p-button
@@ -48,6 +48,6 @@
     <h3
       class="lg:text-4xl md:text-2xl sm:text-2xl mt-5 font-bold mb-2">
       Live Demo Below</h3>
-    <i class="pi pi-chevron-circle-down animate__animated animate__infinite animate__pulse text-4xl"></i>
+    <i class="pi pi-chevron-circle-down animate__animated animate__delay-2s animate__shakeY animate__slower text-4xl mt-5"></i>
   </div>
 </div>
