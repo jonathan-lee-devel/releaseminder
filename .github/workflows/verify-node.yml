@@ -103,6 +103,7 @@ jobs:
         run: pnpm run test:cov
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
+        working-directory: ./api/releaseminder-api
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -207,6 +208,7 @@ jobs:
         run: yarn run test
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
+        working-directory: ./ui/releaseminder-ui
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
