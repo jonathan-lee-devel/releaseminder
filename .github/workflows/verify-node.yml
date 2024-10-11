@@ -237,11 +237,44 @@ jobs:
         with:
           node-version: 20.x
       - name: Install packages
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
       - name: Install Railway
         run: npm i -g @railway/cli
       - name: Deploy
-        run: railway up --service rl-api-service
+        run: railway up --service api
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy API
+        run: railway up --service api
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy Build-Systems
+        run: railway up --service build-systems
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy Clients
+        run: railway up --service clients
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy Comms
+        run: railway up --service comms
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy Issues
+        run: railway up --service issues
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy Payments
+        run: railway up --service payments
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy Releases
+        run: railway up --service releases
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+      - name: Deploy Source-Control
+        run: railway up --service source-control
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
 

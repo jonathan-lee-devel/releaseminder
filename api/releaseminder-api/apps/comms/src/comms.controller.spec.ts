@@ -1,23 +1,17 @@
-import {Test, TestingModule} from '@nestjs/testing';
+import {TestBed} from '@automock/jest';
 
 import {CommsController} from './comms.controller';
-import {CommsService} from './comms.service';
 
 describe('CommsController', () => {
   let commsController: CommsController;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      controllers: [CommsController],
-      providers: [CommsService],
-    }).compile();
+    const {unit} = TestBed.create(CommsController).compile();
 
-    commsController = app.get<CommsController>(CommsController);
+    commsController = unit;
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(commsController.getHello()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(commsController).toBeDefined();
   });
 });

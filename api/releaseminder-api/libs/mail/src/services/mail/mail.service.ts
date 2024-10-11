@@ -1,8 +1,6 @@
 import {Injectable, Logger} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 
-import {EnvironmentVariables} from '../../../config/environment';
-
 @Injectable()
 export class MailService {
   private static readonly NODE_ENV_STAGING = 'staging';
@@ -10,7 +8,7 @@ export class MailService {
 
   constructor(
     private readonly logger: Logger,
-    private readonly configService: ConfigService<EnvironmentVariables>,
+    private readonly configService: ConfigService,
   ) {}
 
   async sendEmail(addressTo: string, subject: string, html: string) {
