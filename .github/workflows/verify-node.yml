@@ -108,7 +108,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: api/releaseminder-api
-          args: -Dsonar.projectKey=jonathan-lee-devel_roomyledger-releaseminder-api
+          args: -Dsonar.projectKey=jonathan-lee-devel_releaseminder-api
             -Dsonar.organization=jonathan-lee-devel
             -Dsonar.sources=apps,libs
             -Dsonar.tests=apps,libs
