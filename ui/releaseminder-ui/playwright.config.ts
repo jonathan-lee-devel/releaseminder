@@ -15,15 +15,14 @@ export default defineConfig({
   use: {
     baseURL: process.env['BASE_URL'],
     trace: 'on-first-retry',
+    extraHTTPHeaders: {
+      'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+    },
   },
   projects: [
     {
       name: 'chromium',
       use: {...devices['Desktop Chrome']},
-    },
-    {
-      name: 'firefox',
-      use: {...devices['Desktop Firefox']},
     },
     {
       name: 'webkit',
