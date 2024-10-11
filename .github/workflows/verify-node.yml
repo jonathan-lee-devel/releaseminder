@@ -110,9 +110,9 @@ jobs:
           projectBaseDir: api/releaseminder-api
           args: -Dsonar.projectKey=jonathan-lee-devel_releaseminder-api
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.sources=**/src/**/*.ts
-            -Dsonar.tests=**/src/**/*.spec.ts
-            -Dsonar.inclusions=**
+            -Dsonar.sources=apps,libs
+            -Dsonar.tests=apps,libs
+            -Dsonar.inclusions=**/*.ts
             -Dsonar.exclusions=**/*.spec.ts,**/*.module.ts,**/main.ts
             -Dsonar.test.inclusions=**/*.spec.ts
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
