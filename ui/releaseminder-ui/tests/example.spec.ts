@@ -5,7 +5,7 @@ test.beforeEach(async ({page}) => {
 });
 
 test('has title', async ({page}) => {
-  await expect(page).toHaveTitle(/RoomyLedger/);
+  await expect(page).toHaveTitle(/ReleaseMinder/);
 });
 
 test('login button redirects to login', async ({page}) => {
