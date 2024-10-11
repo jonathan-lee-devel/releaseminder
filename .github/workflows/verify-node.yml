@@ -464,4 +464,4 @@ jobs:
           retention-days: 30
     env:
       CI: true
-      BASE_URL: 'https://staging.releaseminder.io'
+      BASE_URL: 'https://www.staging.releaseminder.io'
