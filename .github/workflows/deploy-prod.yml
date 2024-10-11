@@ -439,7 +439,7 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_PRODUCTION_TOKEN }}
 
   playwright-test:
-    needs: [ deploy-railway-production-api, deploy-railway-production-build-systems, deploy-railway-production-clients, deploy-railway-production-comms, deploy-railway-production-issues, deploy-railway-production-payments, deploy-railway-production-releases, deploy-railway-production-source-control, deploy-vercel-preview, await-vercel-deployment ]
+    needs: [ deploy-railway-production-api, deploy-railway-production-build-systems, deploy-railway-production-clients, deploy-railway-production-comms, deploy-railway-production-issues, deploy-railway-production-payments, deploy-railway-production-releases, deploy-railway-production-source-control, deploy-railway-production-ui ]
     timeout-minutes: 60
     runs-on: ubuntu-22.04
     steps:
