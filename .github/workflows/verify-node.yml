@@ -222,7 +222,7 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=coverage/releaseminder-ui/lcov.info
             -Dsonar.qualitygate.wait=true
 
-  deploy-railway-staging:
+  deploy-railway-staging-api:
     needs: [lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend]
     runs-on: ubuntu-22.04
     steps:
@@ -241,42 +241,179 @@ jobs:
         working-directory: ./api/releaseminder-api
       - name: Install Railway
         run: npm i -g @railway/cli
-      - name: Deploy
-        run: railway up --service api
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
       - name: Deploy API
         run: railway up --service api
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
+  deploy-railway-staging-build-systems:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
+      - name: Install Railway
+        run: npm i -g @railway/cli
       - name: Deploy Build-Systems
         run: railway up --service build-systems
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
+  deploy-railway-staging-clients:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
+      - name: Install Railway
+        run: npm i -g @railway/cli
       - name: Deploy Clients
         run: railway up --service clients
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
+  deploy-railway-staging-comms:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
+      - name: Install Railway
+        run: npm i -g @railway/cli
       - name: Deploy Comms
         run: railway up --service comms
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
+  deploy-railway-staging-issues:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
+      - name: Install Railway
+        run: npm i -g @railway/cli
       - name: Deploy Issues
         run: railway up --service issues
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
+  deploy-railway-staging-payments:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
+      - name: Install Railway
+        run: npm i -g @railway/cli
       - name: Deploy Payments
         run: railway up --service payments
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
+  deploy-railway-staging-releases:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
+      - name: Install Railway
+        run: npm i -g @railway/cli
       - name: Deploy Releases
         run: railway up --service releases
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
+  deploy-railway-staging-source-control:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+        working-directory: ./api/releaseminder-api
+      - name: Install Railway
+        run: npm i -g @railway/cli
       - name: Deploy Source-Control
         run: railway up --service source-control
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
 
   deploy-vercel-preview:
     needs: [lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend]
@@ -324,7 +461,7 @@ jobs:
           poll-interval: '10'
 
   playwright-test:
-    needs: [ deploy-railway-staging, deploy-vercel-preview, await-vercel-deployment ]
+    needs: [ deploy-railway-staging-api, deploy-railway-staging-build-systems, deploy-railway-staging-clients, deploy-railway-staging-comms, deploy-railway-staging-issues, deploy-railway-staging-payments, deploy-railway-staging-releases, deploy-railway-staging-source-control, deploy-vercel-preview, await-vercel-deployment ]
     timeout-minutes: 60
     runs-on: ubuntu-22.04
     steps:
