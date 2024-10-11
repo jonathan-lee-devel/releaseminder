@@ -195,6 +195,7 @@ export class AppComponent implements OnInit {
     flagsmith
         .init({
           environmentID: environment.FLAGSMITH_CLIENT_SDK_KEY,
+          api: environment.FLAGSMITH_API_URL,
           onChange: () => {
             this.featureFlagsStore.onFeatureFlagsLoaded([
               {
