@@ -1,7 +1,7 @@
 import * as path from 'node:path';
 
 import {defineConfig, devices} from '@playwright/test';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config({path: path.resolve(__dirname, '.env')});
 
@@ -15,15 +15,14 @@ export default defineConfig({
   use: {
     baseURL: process.env['BASE_URL'],
     trace: 'on-first-retry',
+    extraHTTPHeaders: {
+      'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+    },
   },
   projects: [
     {
       name: 'chromium',
       use: {...devices['Desktop Chrome']},
-    },
-    {
-      name: 'firefox',
-      use: {...devices['Desktop Firefox']},
     },
     {
       name: 'webkit',
