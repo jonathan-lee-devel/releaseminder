@@ -103,7 +103,6 @@ jobs:
         run: pnpm run test:cov
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
-        working-directory: ./api/releaseminder-api
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -111,10 +110,10 @@ jobs:
           projectBaseDir: api/releaseminder-api
           args: -Dsonar.projectKey=jonathan-lee-devel_roomyledger-releaseminder-api
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.sources=src
-            -Dsonar.tests=src
+            -Dsonar.sources=apps,libs
+            -Dsonar.tests=apps,libs
             -Dsonar.inclusions=**
-            -Dsonar.exclusions=**/*.spec.ts,**.module.ts,src/main.ts
+            -Dsonar.exclusions=**/*.spec.ts,**.module.ts,**/main.ts
             -Dsonar.test.inclusions=src/**/*.spec.ts
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.qualitygate.wait=true
@@ -208,7 +207,6 @@ jobs:
         run: yarn run test
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
-        working-directory: ./ui/releaseminder-ui
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
