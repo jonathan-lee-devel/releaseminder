@@ -4,7 +4,6 @@ import {inject, TestBed} from '@angular/core/testing';
 import {firstValueFrom} from 'rxjs';
 
 import {ApplicationMessageService} from './application-message.service';
-import {environment} from '../../../environments/environment';
 import {ApplicationMessageDto} from '../../dtos/application-messages/ApplicationMessageDto';
 
 describe('ApplicationMessageService', () => {
@@ -45,7 +44,7 @@ describe('ApplicationMessageService', () => {
     const response$ = service.getPublicApplicationMessage();
     const responsePromise = firstValueFrom(response$);
 
-    const req = httpTestingController.expectOne(`${environment.APPLICATION_MESSAGES_SERVICE_BASE_URL}/public`);
+    const req = httpTestingController.expectOne('http://localhost.dev.api.releaseminder.io:8080/v1/application-messages/public');
     expect(req.request.method).toBe('GET');
     req.flush(applicationMessageDtos);
 

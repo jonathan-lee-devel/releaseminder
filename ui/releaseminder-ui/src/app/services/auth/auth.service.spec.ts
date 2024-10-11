@@ -4,7 +4,6 @@ import {inject, TestBed} from '@angular/core/testing';
 import {firstValueFrom} from 'rxjs';
 
 import {AuthService} from './auth.service';
-import {environment} from '../../../environments/environment';
 import {UserProfile} from '../../dtos/auth/UserProfile';
 
 describe('AuthService', () => {
@@ -36,7 +35,7 @@ describe('AuthService', () => {
     const response$ = service.checkIn(mockUserProfile);
     const responsePromise = firstValueFrom(response$);
 
-    const req = httpTestingController.expectOne(`${environment.USERS_SERVICE_BASE_URL}/authenticated/check-in`);
+    const req = httpTestingController.expectOne('http://localhost.dev.api.releaseminder.io:8080/v1/users/authenticated/check-in');
     expect(req.request.method).toBe('POST');
     req.flush(mockResponse);
 
