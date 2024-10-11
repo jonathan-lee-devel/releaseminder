@@ -110,8 +110,8 @@ jobs:
           projectBaseDir: api/releaseminder-api
           args: -Dsonar.projectKey=jonathan-lee-devel_releaseminder-api
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.sources=apps,libs
-            -Dsonar.tests=apps,libs
+            -Dsonar.sources=.
+            -Dsonar.tests=.
             -Dsonar.inclusions=**
             -Dsonar.exclusions=**/*.spec.ts,**.module.ts,**/main.ts
             -Dsonar.test.inclusions=src/**/*.spec.ts
