@@ -85,5 +85,8 @@
   },
   "resolutions": {
     "@supabase/auth-js": "2.61.0"
+  },
+  "overrides": {
+    "@supabase/auth-js": "2.61.0"
   }
 }
