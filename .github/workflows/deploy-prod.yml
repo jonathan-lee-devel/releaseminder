@@ -135,8 +135,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
-          cache-dependency-path: '**/yarn.lock'
       - run: pnpm install --frozen-lockfile
         working-directory: ./ui/releaseminder-ui
       - name: Lint (v${{ matrix.node-version }})
@@ -457,15 +455,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - name: Install dependencies
         working-directory: ./ui/releaseminder-ui
-        run: npm install -g yarn && yarn
+        run: pnpm install --frozen-lockfile
       - name: Install Playwright Browsers
         working-directory: ./ui/releaseminder-ui
-        run: yarn playwright install --with-deps
+        run: pnpm playwright install --with-deps
       - name: Run Playwright tests
         working-directory: ./ui/releaseminder-ui
-        run: yarn playwright test
+        run: pnpm playwright test
       - uses: actions/upload-artifact@v4
         if: always()
         with:
