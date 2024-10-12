@@ -222,6 +222,30 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=coverage/releaseminder-ui/lcov.info
             -Dsonar.qualitygate.wait=true
 
+  deploy-railway-staging-ui:
+    needs: [ lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20.x
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+        working-directory: ./ui/releaseminder-ui
+      - name: Install Railway
+        run: npm i -g @railway/cli
+      - name: Deploy API
+        run: railway up --service releaseminder-ui
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
+
   deploy-railway-staging-api:
     needs: [lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend]
     runs-on: ubuntu-22.04
@@ -414,54 +438,8 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_STAGING_TOKEN }}
 
-
-  deploy-vercel-preview:
-    needs: [lint-backend, lint-frontend, build-backend, build-frontend, test-backend, test-frontend, sonarcloud-analysis-backend, sonarcloud-analysis-frontend]
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        node-version: [ 20.x ]
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      ENV: stage
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: '1'
-          ref: staging
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-          cache-dependency-path: '**/yarn.lock'
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --git-branch=staging --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --yes --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-
-  await-vercel-deployment:
-    needs: [ deploy-vercel-preview ]
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Sleep
-        run: sleep 10s
-        shell: bash
-      - name: Await for Vercel deployment
-        uses: UnlyEd/github-action-await-vercel@v2.0
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        with:
-          deployment-url: 'staging.releaseminder.io'
-          timeout: 360
-          poll-interval: '10'
-
   playwright-test:
-    needs: [ deploy-railway-staging-api, deploy-railway-staging-build-systems, deploy-railway-staging-clients, deploy-railway-staging-comms, deploy-railway-staging-issues, deploy-railway-staging-payments, deploy-railway-staging-releases, deploy-railway-staging-source-control, deploy-vercel-preview, await-vercel-deployment ]
+    needs: [ deploy-railway-staging-api, deploy-railway-staging-build-systems, deploy-railway-staging-clients, deploy-railway-staging-comms, deploy-railway-staging-issues, deploy-railway-staging-payments, deploy-railway-staging-releases, deploy-railway-staging-source-control, deploy-railway-staging-ui ]
     timeout-minutes: 60
     runs-on: ubuntu-22.04
     steps:
@@ -486,4 +464,4 @@ jobs:
           retention-days: 30
     env:
       CI: true
-      BASE_URL: 'https://staging.releaseminder.io'
+      BASE_URL: 'https://www.staging.releaseminder.io'
