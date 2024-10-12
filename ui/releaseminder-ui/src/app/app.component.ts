@@ -2,7 +2,6 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
-import {inject as vercelInject} from '@vercel/analytics';
 import flagsmith from 'flagsmith';
 import {PrimeNGConfig} from 'primeng/api';
 import {AvatarModule} from 'primeng/avatar';
@@ -119,12 +118,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!environment.local) {
-      vercelInject({
-        framework: 'Angular',
-        mode: environment.production ? 'production' : 'development',
-      });
-    }
     this.userAuthenticationStore.userCheckIn();
     this.primengConfig.ripple = true;
     const config: AppConfig = {
