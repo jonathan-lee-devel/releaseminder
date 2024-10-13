@@ -10,9 +10,13 @@ export const users = pgTable('users', {
 
 export const organizations = pgTable('organizations', {
   id: uuid('id').defaultRandom().notNull().primaryKey(),
+  name: text('name').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-  createdBy: t.uuid('created_by').references(() => users.id),
+  createdBy: t
+    .uuid('created_by')
+    .notNull()
+    .references(() => users.id),
 });
 
 export const organizationRoles = pgTable('organization_roles', {
@@ -22,17 +26,27 @@ export const organizationRoles = pgTable('organization_roles', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   organization: t
     .uuid('parent_organization')
+    .notNull()
     .references(() => organizations.id),
+  createdBy: t
+    .uuid('created_by')
+    .notNull()
+    .references(() => users.id),
 });
 
 export const subdomains = pgTable('subdomains', {
   id: uuid('id').defaultRandom().notNull().primaryKey(),
-  subdomain: text('subdomain').notNull(),
+  subdomain: text('subdomain').unique().notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   organization: t
     .uuid('parent_organization')
+    .notNull()
     .references(() => organizations.id),
+  createdBy: t
+    .uuid('created_by')
+    .notNull()
+    .references(() => users.id),
 });
 
 export const customHostnames = pgTable('custom_hostnames', {
@@ -43,4 +57,8 @@ export const customHostnames = pgTable('custom_hostnames', {
   organization: t
     .uuid('parent_organization')
     .references(() => organizations.id),
+  createdBy: t
+    .uuid('created_by')
+    .notNull()
+    .references(() => users.id),
 });
