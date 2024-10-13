@@ -26,7 +26,7 @@ export class LoginInProgressComponent implements OnInit, OnDestroy {
         .pipe(
             delay(1000),
             tap(() => {
-              if (this.userAuthenticationStore.loggedInState() === 'LOGGED_IN') {
+              if (this.userAuthenticationStore.isLoggedIn()) {
                 this.router
                     .navigate([rebaseRoutePath(RoutePath.LOGIN_SUCCESS)])
                     .catch(RouterUtils.navigateCatchErrorCallback);

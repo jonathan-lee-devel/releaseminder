@@ -90,9 +90,10 @@ export const UserAuthenticationStore = signalStore(
       };
     }),
     withMethods((store) => {
+      const toastWrapperService = inject(ToastWrapperService);
       return {
         onLoginError: (error: Error) => {
-          console.error(error);
+          toastWrapperService.showToast('Login Error', error.message, false, true, 'error', 5000);
           store.logout()
               .catch((reason) => console.error(reason));
         },

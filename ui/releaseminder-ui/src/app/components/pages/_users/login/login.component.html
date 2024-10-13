@@ -64,12 +64,12 @@
       <button
         *ngIf="featureFlagsStore.isSignInWithGitHubEnabled()"
         [loading]="userAuthenticationStore.loggedInState() === 'LOADING'"
-        (click)="userAuthenticationStore.attemptSupabaseLoginWithGoogle()"
+        (click)="doGitHubLogin()"
         pButton pRipple label="Sign In with GitHub" icon="pi pi-github" class="w-full p-button-secondary"></button>
       <button
         *ngIf="featureFlagsStore.isSignInWithGoogleEnabled()"
         [loading]="userAuthenticationStore.loggedInState() === 'LOADING'"
-        (click)="userAuthenticationStore.attemptSupabaseLoginWithGitHub()"
+        (click)="doGoogleLogin()"
         pButton pRipple label="Sign In with Google" icon="pi pi-google" class="w-full bg-blue-600 my-5"></button>
 
       <div class="mt-6 text-center text-600">

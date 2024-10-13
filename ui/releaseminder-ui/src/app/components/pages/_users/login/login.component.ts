@@ -69,4 +69,20 @@ export class LoginComponent implements OnInit {
         )
         .subscribe();
   }
+
+  doGoogleLogin() {
+    if (!this.featureFlagsStore.isSignInWithGoogleEnabled()) {
+      return;
+    }
+    this.userAuthenticationStore.attemptSupabaseLoginWithGoogle()
+        .catch((reason) => console.error(reason));
+  }
+
+  doGitHubLogin() {
+    if (!this.featureFlagsStore.isSignInWithGitHubEnabled()) {
+      return;
+    }
+    this.userAuthenticationStore.attemptSupabaseLoginWithGitHub()
+        .catch((reason) => console.error(reason));
+  }
 }
