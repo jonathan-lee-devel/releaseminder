@@ -7,14 +7,12 @@ import {SupabaseAuthStrategy} from 'nestjs-supabase-auth';
 import {ExtractJwt} from 'passport-jwt';
 import {ParsedQs} from 'qs';
 
-import {EnvironmentVariables} from '../../../config/environment';
-
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(
   SupabaseAuthStrategy,
   'supabase',
 ) {
-  public constructor(configService: ConfigService<EnvironmentVariables>) {
+  public constructor(configService: ConfigService) {
     super({
       supabaseUrl: configService.getOrThrow<string>('SUPABASE_URL'),
       supabaseKey: configService.getOrThrow<string>('SUPABASE_KEY'),
