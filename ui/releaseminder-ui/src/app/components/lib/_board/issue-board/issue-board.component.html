@@ -17,8 +17,11 @@
       } @else {
         @for (section of demoStore.sortedByIdSections(); track $index) {
           <div class="col-12 lg:col-3 p-3">
-            <app-issue-section pDroppable (onDrop)="demoStore.handleDrop(section.id)" [sectionId]="section.id"
-                               [cardTitle]="section.title" />
+            <app-issue-section pDroppable
+                               (onDrop)="demoStore.handleDrop(section.id)"
+                               [sectionId]="section.id"
+                               [cardTitle]="section.title"
+            />
           </div>
         }
       }
