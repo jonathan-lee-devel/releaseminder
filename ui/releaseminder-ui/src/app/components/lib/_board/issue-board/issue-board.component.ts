@@ -26,6 +26,6 @@ export class IssueBoardComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.demoStore.onLoadingComplete();
-    }, 2500);
+    }, 1500);
   }
 }
