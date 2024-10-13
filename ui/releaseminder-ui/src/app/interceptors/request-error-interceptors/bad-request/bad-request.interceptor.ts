@@ -2,13 +2,11 @@ import {HttpInterceptorFn} from '@angular/common/http';
 import {inject} from '@angular/core';
 import {catchError, throwError} from 'rxjs';
 
-import {PropertiesStore} from '../../../+state/ledger/properties/properties.store';
 import {HttpStatus} from '../../../common/enums/HttpStatus';
 import {ToastWrapperService} from '../../../services/toast-wrapper/toast-wrapper.service';
 
 
 export const badRequestInterceptor: HttpInterceptorFn = (req, next) => {
-  const propertiesStore = inject(PropertiesStore);
   const toastWrapperService = inject(ToastWrapperService);
 
   return next(req).pipe(
@@ -66,7 +64,6 @@ export const badRequestInterceptor: HttpInterceptorFn = (req, next) => {
             } else {
               message = 'An unknown request error-class has occurred';
             }
-            propertiesStore.clearProperties();
             toastWrapperService.showToast(
                 'Request Error',
                 message,

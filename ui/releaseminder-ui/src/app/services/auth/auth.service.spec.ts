@@ -35,7 +35,7 @@ describe('AuthService', () => {
     const response$ = service.checkIn(mockUserProfile);
     const responsePromise = firstValueFrom(response$);
 
-    const req = httpTestingController.expectOne('http://localhost.dev.api.releaseminder.io:8080/v1/users/authenticated/check-in');
+    const req = httpTestingController.expectOne('http://localhost.local.api.releaseminder.io:8080/v1/users/authenticated/check-in');
     expect(req.request.method).toBe('POST');
     req.flush(mockResponse);
 

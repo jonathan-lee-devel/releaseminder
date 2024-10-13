@@ -44,7 +44,7 @@ describe('ApplicationMessageService', () => {
     const response$ = service.getPublicApplicationMessage();
     const responsePromise = firstValueFrom(response$);
 
-    const req = httpTestingController.expectOne('http://localhost.dev.api.releaseminder.io:8080/v1/application-messages/public');
+    const req = httpTestingController.expectOne('http://localhost.local.api.releaseminder.io:8080/v1/application-messages/public');
     expect(req.request.method).toBe('GET');
     req.flush(applicationMessageDtos);
 
