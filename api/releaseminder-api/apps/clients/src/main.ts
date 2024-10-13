@@ -1,13 +1,13 @@
 import {createRabbitMqConsumerMicroservice} from '@app/micro/micro/micro.utils';
 import {configDotenv} from 'dotenv';
 
-import {ReleasesModule} from '../../releases/src/releases.module';
+import {ClientsModule} from './clients.module';
 
 configDotenv();
 
 async function bootstrap() {
   const app = await createRabbitMqConsumerMicroservice(
-    ReleasesModule,
+    ClientsModule,
     [...process.env.CLIENTS_RABBITMQ_URLS.split(',')],
     process.env.CLIENTS_QUEUE_NAME,
   );
