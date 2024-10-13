@@ -11,7 +11,6 @@ import {AuthService} from '../../services/auth/auth.service';
 import {SupabaseService} from '../../services/supabase/supabase.service';
 import {ToastWrapperService} from '../../services/toast-wrapper/toast-wrapper.service';
 import {RouterUtils} from '../../util/router/Router.utils';
-import {PropertiesStore} from '../ledger/properties/properties.store';
 import {NotificationsStore} from '../notifications/notifications.store';
 
 export type LoggedInState = 'INIT' | 'NOT_LOGGED_IN' | 'LOADING' | 'LOGGED_IN';
@@ -40,7 +39,6 @@ export const UserAuthenticationStore = signalStore(
       const authService = inject(AuthService);
       const router = inject(Router);
       const notificationsStore = inject(NotificationsStore);
-      const propertiesStore = inject(PropertiesStore);
       const document = inject(Document);
       const supabaseService = inject(SupabaseService);
       return {
@@ -88,7 +86,6 @@ export const UserAuthenticationStore = signalStore(
               .navigate([rebaseRoutePath(RoutePath.LOGIN)])
               .catch(RouterUtils.navigateCatchErrorCallback);
           notificationsStore.unloadNotifications();
-          propertiesStore.clearProperties();
         },
       };
     }),

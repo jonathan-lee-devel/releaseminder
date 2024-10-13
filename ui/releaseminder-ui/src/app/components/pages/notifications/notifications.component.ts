@@ -1,23 +1,11 @@
-import {
-  AsyncPipe,
-  DatePipe,
-  formatDate,
-  NgIf,
-  NgOptimizedImage,
-  NgStyle,
-} from '@angular/common';
+import {AsyncPipe, DatePipe, NgIf, NgOptimizedImage, NgStyle} from '@angular/common';
 import {Component, inject, OnInit} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {ButtonModule} from 'primeng/button';
 import {MenuModule} from 'primeng/menu';
 
 import {NotificationsStore} from '../../../+state/notifications/notifications.store';
-import {
-  rebaseRoutePath,
-  rebaseRoutePathAsString,
-  RoutePath,
-  routePathParameters,
-} from '../../../app.routes';
+import {rebaseRoutePath, RoutePath} from '../../../app.routes';
 import {NotificationDto} from '../../../dtos/notifications/Notification.dto';
 import {CardWithLinkComponent} from '../../lib/card-with-link/card-with-link.component';
 
@@ -54,27 +42,16 @@ export class NotificationsComponent implements OnInit {
   ];
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
-  protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
   protected readonly notificationsStore = inject(NotificationsStore);
   protected readonly Date = Date;
-  protected readonly formatDate = formatDate;
 
   ngOnInit() {
     this.notificationsStore.loadNotifications();
   }
 
   protected createLinkFromNotification(notification: NotificationDto) {
-    return notification.type === 'PROPERTY_INVITATION' ?
-      rebaseRoutePathAsString(
-          RoutePath.PROPERTIES_INVITATIONS_ACCEPT_ID_TOKEN_VALUE.replace(
-              routePathParameters.PROPERTY_ID,
-              notification.propertyId ?? '',
-          ).replace(
-              routePathParameters.TOKEN_VALUE,
-              notification.invitationTokenValue ?? '',
-          ),
-      ) :
-      rebaseRoutePath(RoutePath.MAIN_MENU);
+    console.log(notification);
+    return rebaseRoutePath(RoutePath.MAIN_MENU);
   }
 
   protected acknowledgeNotificationById(notificationId: string) {
