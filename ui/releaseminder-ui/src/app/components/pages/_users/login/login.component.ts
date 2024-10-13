@@ -17,6 +17,7 @@ import {take, tap} from 'rxjs';
 import {UserAuthenticationStore} from '../../../../+state/auth/user-auth.store';
 import {FeatureFlagsStore} from '../../../../+state/feature-flags/feature-flags.store';
 import {FullIssueBoardComponent} from '../../../lib/_board/full-issue-board/full-issue-board.component';
+import {LoginSidebarFeatureComponent} from '../../../lib/_users/login-sidebar-feature/login-sidebar-feature.component';
 import {PreAlphaMessageComponent} from '../../../lib/messages/pre-alpha-message/pre-alpha-message.component';
 import {SplashBannerComponent} from '../../../lib/splash-banner/splash-banner.component';
 
@@ -46,6 +47,7 @@ import {SplashBannerComponent} from '../../../lib/splash-banner/splash-banner.co
     SplashBannerComponent,
     FullIssueBoardComponent,
     DividerModule,
+    LoginSidebarFeatureComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
