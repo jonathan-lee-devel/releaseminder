@@ -17,6 +17,7 @@ import {SpanDarkModeComponent} from '../_dark-mode/span-dark-mode/span-dark-mode
 import {
   EmailLoginOverlayPanelComponent,
 } from '../_users/email-login-overlay-panel/email-login-overlay-panel.component';
+import {PricingPlansSectionComponent} from '../landing-page/pricing-plans-section/pricing-plans-section.component';
 
 @Component({
   selector: 'app-splash-banner',
@@ -38,6 +39,7 @@ import {
     EmailLoginOverlayPanelComponent,
     NgClass,
     SpanDarkModeComponent,
+    PricingPlansSectionComponent,
   ],
   templateUrl: './splash-banner.component.html',
   styleUrl: './splash-banner.component.scss',
