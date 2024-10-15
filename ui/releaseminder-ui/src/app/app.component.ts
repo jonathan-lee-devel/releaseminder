@@ -28,6 +28,7 @@ import {
 } from './components/lib/messages/update-or-maintenance-in-progress-message/update-or-maintenance-in-progress-message.component';
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
 import {ApplicationMessageDto} from './dtos/application-messages/ApplicationMessageDto';
+import {FeatureFlagDto} from './dtos/feature-flags/FeatureFlag.dto';
 import {FeatureFlagEnum} from './enums/FeatureFlag.enum';
 import {AppConfig, ColorScheme, LayoutService} from './layout/service/app.layout.service';
 import {ApplicationMessageService} from './services/application-message/application-message.service';
@@ -64,18 +65,17 @@ export class AppComponent implements OnInit {
   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
   protected isSidebarVisible: boolean = false;
   protected colorScheme: ColorScheme = 'light';
+  protected publicApplicationMessage$: Observable<ApplicationMessageDto[]>;
   protected readonly userAuthenticationStore = inject(UserAuthenticationStore);
   protected readonly featureFlagsStore = inject(FeatureFlagsStore);
   protected readonly notificationsStore = inject(NotificationsStore);
   protected readonly paymentStore = inject(PaymentStore);
-  protected publicApplicationMessage$: Observable<ApplicationMessageDto[]>;
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
   protected readonly Router = Router;
   private readonly REFRESH_EVENT_ID = 1;
 
   constructor(
-    private readonly document: Document,
     private readonly router: Router,
     private readonly primengConfig: PrimeNGConfig,
     private readonly layoutService: LayoutService,
@@ -190,38 +190,14 @@ export class AppComponent implements OnInit {
           environmentID: environment.FLAGSMITH_CLIENT_SDK_KEY,
           api: environment.FLAGSMITH_API_URL,
           onChange: () => {
-            this.featureFlagsStore.onFeatureFlagsLoaded([
-              {
-                featureName: FeatureFlagEnum.IS_UPDATE_OR_MAINTENANCE_IN_PROGRESS,
-                isActive: flagsmith.hasFeature(
-                    FeatureFlagEnum.IS_UPDATE_OR_MAINTENANCE_IN_PROGRESS,
-                ),
-              },
-              {
-                featureName: FeatureFlagEnum.SIGN_IN_WITH_GOOGLE,
-                isActive: flagsmith.hasFeature(
-                    FeatureFlagEnum.SIGN_IN_WITH_GOOGLE,
-                ),
-              },
-              {
-                featureName: FeatureFlagEnum.SIGN_IN_WITH_APPLE,
-                isActive: flagsmith.hasFeature(
-                    FeatureFlagEnum.SIGN_IN_WITH_APPLE,
-                ),
-              },
-              {
-                featureName: FeatureFlagEnum.SIGN_IN_WITH_GITHUB,
-                isActive: flagsmith.hasFeature(
-                    FeatureFlagEnum.SIGN_IN_WITH_GITHUB,
-                ),
-              },
-              {
-                featureName: FeatureFlagEnum.SIGN_IN_WITH_EMAIL,
-                isActive: flagsmith.hasFeature(
-                    FeatureFlagEnum.SIGN_IN_WITH_EMAIL,
-                ),
-              },
-            ]);
+            const loadedFlags: FeatureFlagDto[] = [];
+            Object.values(FeatureFlagEnum).forEach((flag) => {
+              loadedFlags.push({
+                featureName: flag,
+                isActive: flagsmith.hasFeature(flag),
+              });
+            });
+            this.featureFlagsStore.onFeatureFlagsLoaded([...loadedFlags]);
           },
         })
         .catch((reason) => console.error(reason));
