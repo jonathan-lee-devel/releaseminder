@@ -1,12 +1,6 @@
 import {computed, inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
+import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
 import {take, tap} from 'rxjs';
 
 import {rebaseRoutePath, RoutePath} from '../../app.routes';
@@ -126,6 +120,7 @@ export const PaymentStore = signalStore(
           return (difference < 0) ?
           String(Math.abs(Math.ceil(difference / (1000 * 3600 * 24)))) : '0';
         }),
+        isTrialActive: computed(() => store.paymentStatus() === 'TRIAL'),
       };
     }),
 );
