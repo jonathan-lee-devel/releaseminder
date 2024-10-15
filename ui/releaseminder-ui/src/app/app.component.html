@@ -4,8 +4,8 @@
 <ng-container *ngIf="publicApplicationMessage$ | async as publicMessages">
   @for (publicMessage of publicMessages; track $index; ) {
     <app-application-message
-      *ngIf="featureFlagsStore.isUpdateOrMaintenanceInProgress() === false &&
-      userAuthenticationStore.loggedInState() !== 'LOGGED_IN' &&
+      *ngIf="!featureFlagsStore.isUpdateOrMaintenanceInProgress() &&
+      userAuthenticationStore.isLoggedIn() &&
       publicMessage.isShow"
       [severity]="publicMessage.severity"
       [message]="publicMessage.message"
@@ -15,7 +15,7 @@
   }
 </ng-container>
 <app-free-trial-message
-  *ngIf="userAuthenticationStore.loggedInState() === 'LOGGED_IN' && paymentStore.paymentStatus() === 'TRIAL'" />
+  *ngIf="userAuthenticationStore.isLoggedIn() && paymentStore.paymentStatus() === 'TRIAL'" />
 <p-toast
   [hideTransitionOptions]="'300ms'"
   [showTransformOptions]="'translateY(100%)'"

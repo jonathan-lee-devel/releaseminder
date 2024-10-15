@@ -1,8 +1,7 @@
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
-import flagsmith from 'flagsmith';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {PrimeNGConfig} from 'primeng/api';
 import {AvatarModule} from 'primeng/avatar';
 import {ButtonModule} from 'primeng/button';
@@ -11,14 +10,14 @@ import {InputSwitchChangeEvent} from 'primeng/inputswitch';
 import {MessagesModule} from 'primeng/messages';
 import {Sidebar, SidebarModule} from 'primeng/sidebar';
 import {ToastModule} from 'primeng/toast';
-import {filter, Observable, tap} from 'rxjs';
+import {Observable} from 'rxjs';
 
 import {UserAuthenticationStore} from './+state/auth/user-auth.store';
 import {FeatureFlagsStore} from './+state/feature-flags/feature-flags.store';
 import {NotificationsStore} from './+state/notifications/notifications.store';
 import {PaymentStore} from './+state/payment/payment.store';
 import {rebaseRoutePath, RoutePath} from './app.routes';
-import {environment} from '../environments/environment';
+import {AppService} from './app.service';
 import {FooterComponent} from './components/lib/footer/footer.component';
 import {ApplicationMessageComponent} from './components/lib/messages/application-message/application-message.component';
 import {FreeTrialMessageComponent} from './components/lib/messages/free-trial-message/free-trial-message.component';
@@ -28,12 +27,9 @@ import {
 } from './components/lib/messages/update-or-maintenance-in-progress-message/update-or-maintenance-in-progress-message.component';
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
 import {ApplicationMessageDto} from './dtos/application-messages/ApplicationMessageDto';
-import {FeatureFlagDto} from './dtos/feature-flags/FeatureFlag.dto';
-import {FeatureFlagEnum} from './enums/FeatureFlag.enum';
-import {AppConfig, ColorScheme, LayoutService} from './layout/service/app.layout.service';
+import {ColorScheme, LayoutService} from './layout/service/app.layout.service';
 import {ApplicationMessageService} from './services/application-message/application-message.service';
 import {AuthService} from './services/auth/auth.service';
-import {SupabaseService} from './services/supabase/supabase.service';
 
 @Component({
   selector: 'app-root',
@@ -66,14 +62,15 @@ export class AppComponent implements OnInit {
   protected isSidebarVisible: boolean = false;
   protected colorScheme: ColorScheme = 'light';
   protected publicApplicationMessage$: Observable<ApplicationMessageDto[]>;
+
   protected readonly userAuthenticationStore = inject(UserAuthenticationStore);
   protected readonly featureFlagsStore = inject(FeatureFlagsStore);
   protected readonly notificationsStore = inject(NotificationsStore);
   protected readonly paymentStore = inject(PaymentStore);
+
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
   protected readonly Router = Router;
-  private readonly REFRESH_EVENT_ID = 1;
 
   constructor(
     private readonly router: Router,
@@ -81,55 +78,17 @@ export class AppComponent implements OnInit {
     private readonly layoutService: LayoutService,
     private readonly applicationMessageService: ApplicationMessageService,
     private readonly authService: AuthService,
-    private readonly supabaseService: SupabaseService,
+    private readonly appService: AppService,
   ) {
     this.publicApplicationMessage$ =
       this.applicationMessageService.getPublicApplicationMessage();
-    this.supabaseService.authChanges((_, session) => {
-      if (!session?.access_token) {
-        return;
-      }
-      this.userAuthenticationStore
-          .onLoginComplete(
-              {
-                accessToken: session?.access_token ?? '',
-                refreshToken: session?.refresh_token ?? '',
-              },
-              {
-                email: session?.user?.email ?? '',
-                displayName: session?.user?.user_metadata?.['name'] ?? '',
-              },
-          )
-          .then(() => {
-            if (
-              this.userAuthenticationStore.loggedInState() === 'LOGGED_IN' &&
-            this.supabaseService.session
-            ) {
-              this.userAuthenticationStore.userCheckIn();
-              this.paymentStore.loadPaymentStatus();
-              this.notificationsStore.loadNotifications();
-            }
-          });
-    });
-  }
-
-  closeCallback(e: Event): void {
-    this.sidebarRef.close(e);
+    this.appService.initSupabase();
   }
 
   ngOnInit() {
     this.userAuthenticationStore.userCheckIn();
     this.primengConfig.ripple = true;
-    const config: AppConfig = {
-      ripple: true,
-      inputStyle: 'outlined',
-      menuMode: 'slim-plus',
-      colorScheme: this.colorScheme,
-      theme: 'blue',
-      layoutTheme: 'colorScheme',
-      scale: 14,
-    };
-    this.layoutService.config.set(config);
+    this.layoutService.config.set(AppService.getAppConfig(this.colorScheme));
     if (
       this.authService.getDarkModeSettingFromLocalStorage() &&
       !this.userAuthenticationStore.isDarkMode()
@@ -141,73 +100,16 @@ export class AppComponent implements OnInit {
     ) {
       this.userAuthenticationStore.setLightModeEnabled();
     }
-    this.router.events
-        .pipe(
-            tap(() => {
-              if (
-                this.authService.getDarkModeSettingFromLocalStorage() &&
-            !this.userAuthenticationStore.isDarkMode()
-              ) {
-                this.userAuthenticationStore.setDarkModeEnabled();
-              } else if (
-                !this.authService.getDarkModeSettingFromLocalStorage() &&
-            this.userAuthenticationStore.isDarkMode()
-              ) {
-                this.userAuthenticationStore.setLightModeEnabled();
-              }
-            }),
-            filter(
-                (routerEvent): routerEvent is NavigationEnd =>
-                  routerEvent instanceof NavigationEnd,
-            ),
-            filter((event) => event.id === this.REFRESH_EVENT_ID),
-            tap(() => {
-              this.userAuthenticationStore.checkLoginOnRefresh();
-            }),
-            filter(
-                () => this.userAuthenticationStore.loggedInState() === 'LOGGED_IN',
-            ),
-            tap(() => {
-              this.notificationsStore.loadNotifications();
-              this.paymentStore.loadPaymentStatus();
-            }),
-        )
-        .subscribe();
-    this.router.events
-        .pipe(
-            filter(
-                (routerEvent): routerEvent is NavigationEnd =>
-                  routerEvent instanceof NavigationEnd,
-            ),
-            tap((event) => {
-              this.authService.setNextParamInLocalStorageIfNotAnonymous(event.url);
-            }),
-        )
-        .subscribe();
-    this.featureFlagsStore.onFeatureFlagsInit();
-    flagsmith
-        .init({
-          environmentID: environment.FLAGSMITH_CLIENT_SDK_KEY,
-          api: environment.FLAGSMITH_API_URL,
-          onChange: () => {
-            const loadedFlags: FeatureFlagDto[] = [];
-            Object.values(FeatureFlagEnum).forEach((flag) => {
-              loadedFlags.push({
-                featureName: flag,
-                isActive: flagsmith.hasFeature(flag),
-              });
-            });
-            this.featureFlagsStore.onFeatureFlagsLoaded([...loadedFlags]);
-          },
-        })
-        .catch((reason) => console.error(reason));
+    this.appService.pipeAuthAndDarkModeToggleRouterEvents(this.router);
+    this.appService.pipeNextParamAuthEvents(this.router);
+    this.appService.initFeatureFlags();
   }
 
   handleDarkModeToggleEvent($event: InputSwitchChangeEvent) {
-    if ($event.checked) {
-      this.userAuthenticationStore.setDarkModeEnabled();
-    } else {
-      this.userAuthenticationStore.setLightModeEnabled();
-    }
+    this.appService.handleDarkModeToggleEvent($event);
+  }
+
+  closeCallback(e: Event): void {
+    this.sidebarRef.close(e);
   }
 }
