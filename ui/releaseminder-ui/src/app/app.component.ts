@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {PrimeNGConfig} from 'primeng/api';
@@ -8,13 +8,12 @@ import {ButtonModule} from 'primeng/button';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InputSwitchChangeEvent} from 'primeng/inputswitch';
 import {MessagesModule} from 'primeng/messages';
-import {Sidebar, SidebarModule} from 'primeng/sidebar';
+import {SidebarModule} from 'primeng/sidebar';
 import {ToastModule} from 'primeng/toast';
 import {Observable} from 'rxjs';
 
 import {UserAuthenticationStore} from './+state/auth/user-auth.store';
 import {FeatureFlagsStore} from './+state/feature-flags/feature-flags.store';
-import {NotificationsStore} from './+state/notifications/notifications.store';
 import {PaymentStore} from './+state/payment/payment.store';
 import {rebaseRoutePath, RoutePath} from './app.routes';
 import {AppService} from './app.service';
@@ -26,6 +25,7 @@ import {
   UpdateOrMaintenanceInProgressMessageComponent,
 } from './components/lib/messages/update-or-maintenance-in-progress-message/update-or-maintenance-in-progress-message.component';
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
+import {SidebarComponent} from './components/lib/sidebar/sidebar.component';
 import {ApplicationMessageDto} from './dtos/application-messages/ApplicationMessageDto';
 import {ColorScheme, LayoutService} from './layout/service/app.layout.service';
 import {ApplicationMessageService} from './services/application-message/application-message.service';
@@ -52,20 +52,18 @@ import {AuthService} from './services/auth/auth.service';
     RouterLink,
     SidebarModule,
     NgOptimizedImage,
+    SidebarComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   title = 'ReleaseMinder';
-  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
-  protected isSidebarVisible: boolean = false;
   protected colorScheme: ColorScheme = 'light';
   protected publicApplicationMessage$: Observable<ApplicationMessageDto[]>;
 
   protected readonly userAuthenticationStore = inject(UserAuthenticationStore);
   protected readonly featureFlagsStore = inject(FeatureFlagsStore);
-  protected readonly notificationsStore = inject(NotificationsStore);
   protected readonly paymentStore = inject(PaymentStore);
 
   protected readonly rebaseRoutePath = rebaseRoutePath;
@@ -107,9 +105,5 @@ export class AppComponent implements OnInit {
 
   handleDarkModeToggleEvent($event: InputSwitchChangeEvent) {
     this.appService.handleDarkModeToggleEvent($event);
-  }
-
-  closeCallback(e: Event): void {
-    this.sidebarRef.close(e);
   }
 }

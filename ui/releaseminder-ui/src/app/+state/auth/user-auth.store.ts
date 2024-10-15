@@ -20,6 +20,7 @@ type UserAuthenticationState = {
   tokens: TokensDto;
   userInfo: UserProfile;
   isDarkMode: boolean;
+  isSidebarOpen: boolean;
 }
 
 const initialState: UserAuthenticationState = {
@@ -30,6 +31,7 @@ const initialState: UserAuthenticationState = {
     displayName: '',
   },
   isDarkMode: false,
+  isSidebarOpen: false,
 };
 
 export const UserAuthenticationStore = signalStore(
@@ -42,6 +44,9 @@ export const UserAuthenticationStore = signalStore(
       const document = inject(Document);
       const supabaseService = inject(SupabaseService);
       return {
+        setSidebar: (value: boolean) => {
+          patchState(store, {isSidebarOpen: value});
+        },
         setDarkModeEnabled: () => {
           const linkElement = document.getElementById('app-theme') as unknown as HTMLLinkElement;
           linkElement.href = 'theme-dark.css';
