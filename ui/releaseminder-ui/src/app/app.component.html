@@ -1,5 +1,5 @@
 <app-navbar (darkModeToggleEvent)="handleDarkModeToggleEvent($event)"
-            (sideNavToggleEvent)="userAuthenticationStore.setSidebar($event)" />
+            (sideNavToggleEvent)="userAuthenticationStore.setIsSidebarOpen($event)" />
 <app-update-or-maintenance-in-progress-message *ngIf="featureFlagsStore.isUpdateOrMaintenanceInProgress()" />
 <ng-container *ngIf="publicApplicationMessage$ | async as publicMessages">
   @for (publicMessage of publicMessages; track $index; ) {

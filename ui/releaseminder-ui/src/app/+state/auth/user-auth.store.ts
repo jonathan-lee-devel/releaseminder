@@ -44,8 +44,8 @@ export const UserAuthenticationStore = signalStore(
       const document = inject(Document);
       const supabaseService = inject(SupabaseService);
       return {
-        setSidebar: (value: boolean) => {
-          patchState(store, {isSidebarOpen: value});
+        setIsSidebarOpen: (isSidebarOpen: boolean) => {
+          patchState(store, {isSidebarOpen});
         },
         setDarkModeEnabled: () => {
           const linkElement = document.getElementById('app-theme') as unknown as HTMLLinkElement;
