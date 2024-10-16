@@ -1,5 +1,7 @@
 <app-navbar (darkModeToggleEvent)="handleDarkModeToggleEvent($event)" (sideNavToggleEvent)="userAuthenticationStore.setIsSidebarOpen($event)" />
-<app-update-or-maintenance-in-progress-message *ngIf="featureFlagsStore.isUpdateOrMaintenanceInProgress()" />
+@if (featureFlagsStore.isUpdateOrMaintenanceInProgress()) {
+  <app-update-or-maintenance-in-progress-message />
+}
 <ng-container *ngIf="publicApplicationMessage$ | async as publicMessages">
   @for (publicMessage of publicMessages; track $index; ) {
     <app-application-message
@@ -13,7 +15,9 @@
     />
   }
 </ng-container>
-<app-free-trial-message *ngIf="userAuthenticationStore.isLoggedIn() && paymentStore.isTrialActive()" />
+@if (userAuthenticationStore.isLoggedIn() && paymentStore.isTrialActive()) {
+  <app-free-trial-message />
+}
 <p-toast
   [hideTransitionOptions]="'300ms'"
   [showTransformOptions]="'translateY(100%)'"
