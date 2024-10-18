@@ -1,5 +1,8 @@
 import {DbModule} from '@app/db/db';
-import {delayedAction} from '@app/util/util/testing.utils';
+import {
+  delayedAction,
+  jestIntegrationTestTimeout,
+} from '@app/util/util/testing.utils';
 import {faker} from '@faker-js/faker/locale/en_US';
 import {Logger} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
@@ -16,7 +19,7 @@ import {ClientsModule} from '../../../clients.module';
 import * as schema from '../../../db/schema';
 
 describe('UsersRepositoryService', () => {
-  jest.setTimeout(60_000);
+  jest.setTimeout(jestIntegrationTestTimeout);
 
   let service: UsersRepositoryService;
   let postgresContainer: StartedPostgreSqlContainer;
@@ -39,7 +42,7 @@ describe('UsersRepositoryService', () => {
     await postgresClient.end();
     await delayedAction(async () => {
       await postgresContainer.stop();
-    }, 15_000);
+    });
   });
 
   beforeEach(async () => {
