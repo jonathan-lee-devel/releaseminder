@@ -3,9 +3,9 @@ import {HttpStatus, Injectable, Logger, OnModuleInit} from '@nestjs/common';
 import {AuthUser} from '@supabase/supabase-js';
 import {v4} from 'uuid';
 
-import {AddressesRepositoryService} from '../repositories/addresses-repository/addresses-repository.service';
-import {OrganizationsRepositoryService} from '../repositories/organizations-repository/organizations-repository.service';
-import {UsersRepositoryService} from '../repositories/users-repository/users-repository.service';
+import {AddressesRepositoryService} from '../_repositories/addresses-repository/addresses-repository.service';
+import {OrganizationsRepositoryService} from '../_repositories/organizations-repository/organizations-repository.service';
+import {UsersRepositoryService} from '../_repositories/users-repository/users-repository.service';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
