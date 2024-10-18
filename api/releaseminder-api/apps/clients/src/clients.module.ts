@@ -2,6 +2,9 @@ import {DbModule} from '@app/db/db';
 import {Logger, Module} from '@nestjs/common';
 
 import {UsersController} from './controllers/users/users.controller';
+import {AddressesRepositoryService} from './services/repositories/addresses-repository/addresses-repository.service';
+import {OrganizationsRepositoryService} from './services/repositories/organizations-repository/organizations-repository.service';
+import {UsersRepositoryService} from './services/repositories/users-repository/users-repository.service';
 import {UsersService} from './services/users/users.service';
 import * as schema from '../../clients/src/db/schema';
 
@@ -20,6 +23,9 @@ import * as schema from '../../clients/src/db/schema';
       useFactory: () => new Logger(ClientsModule.name),
     },
     UsersService,
+    AddressesRepositoryService,
+    OrganizationsRepositoryService,
+    UsersRepositoryService,
   ],
 })
 export class ClientsModule {}

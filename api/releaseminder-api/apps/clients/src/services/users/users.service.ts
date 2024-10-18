@@ -1,74 +1,60 @@
 import {RabbitMQResultDto} from '@app/micro/micro/rabbitmq/dto/common/RabbitMQResult.dto';
-import {
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-  OnModuleInit,
-} from '@nestjs/common';
+import {HttpStatus, Injectable, Logger, OnModuleInit} from '@nestjs/common';
 import {AuthUser} from '@supabase/supabase-js';
-import {eq} from 'drizzle-orm';
-import {NodePgDatabase} from 'drizzle-orm/node-postgres';
 import {v4} from 'uuid';
 
-import * as schema from '../../db/schema';
-import {users} from '../../db/schema';
+import {AddressesRepositoryService} from '../repositories/addresses-repository/addresses-repository.service';
+import {OrganizationsRepositoryService} from '../repositories/organizations-repository/organizations-repository.service';
+import {UsersRepositoryService} from '../repositories/users-repository/users-repository.service';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
   constructor(
-    @Inject('CLIENTS_DATABASE_CONNECTION')
-    private readonly database: NodePgDatabase<typeof schema>,
     private readonly logger: Logger,
+    private readonly usersRepositoryService: UsersRepositoryService,
+    private readonly organizationsRepositoryService: OrganizationsRepositoryService,
+    private readonly addressesRepositoryService: AddressesRepositoryService,
   ) {}
 
   async onModuleInit() {
-    const userCreateResult = await this.database
-      .insert(schema.users)
-      .values({
-        email: v4(),
-        supabaseUserId: v4(),
-      })
-      .returning();
+    const userCreateResult = await this.usersRepositoryService.insertUser(
+      'jonathan.lee.devel@gmail.com',
+      v4(),
+    );
 
     const newUserId = userCreateResult[0].id;
 
-    const organizationCreateResult = await this.database
-      .insert(schema.organizations)
-      .values({
-        name: 'Test',
-        createdBy: newUserId,
-      })
-      .returning();
+    const organizationCreateResult =
+      await this.organizationsRepositoryService.insertOrganization(
+        'Test',
+        newUserId,
+      );
 
     const newOrganizationId = organizationCreateResult[0].id;
 
-    const subdomainCreateResult = await this.database
-      .insert(schema.subdomains)
-      .values({
-        createdBy: newUserId,
-        organization: newOrganizationId,
-        subdomain: `jdevel${v4()}`,
-      })
-      .returning();
+    const subdomainCreateResult =
+      await this.addressesRepositoryService.insertSubdomain(
+        newOrganizationId,
+        `jdevel${v4()}`,
+        newUserId,
+      );
 
     this.logger.log('Inserted CLIENTS test data');
 
     this.logger.log(subdomainCreateResult[0]);
   }
 
-  async getUserBySupabaseId(
+  async getUserByEmail(
     requestingUser: AuthUser,
-    supabaseId: string,
+    email: string,
   ): Promise<RabbitMQResultDto<unknown>> {
-    this.logger.log(`getUserBySupabaseId: ${requestingUser.id} ${supabaseId}`);
-    if (requestingUser.id === supabaseId) {
+    this.logger.log(`getUserByEmail: ${requestingUser.email} ${email}`);
+    if (requestingUser.email === email) {
       return {
         status: HttpStatus.OK,
-        body: await this.database
-          .select()
-          .from(schema.users)
-          .where(eq(users.supabaseUserId, supabaseId)),
+        body: await this.usersRepositoryService.getUserByEmail(
+          requestingUser.email,
+        ),
       };
     }
     return {status: HttpStatus.FORBIDDEN, body: null};

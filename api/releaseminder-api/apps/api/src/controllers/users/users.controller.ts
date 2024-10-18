@@ -1,9 +1,9 @@
 import {CurrentUser} from '@app/auth/auth/supabase/decorators/current-user.decorator';
 import {Public} from '@app/auth/auth/supabase/decorators/is-public.decorator';
-import {GetUserBySupabaseIdPayload} from '@app/micro/micro/rabbitmq/dto/clients/get-user-by-supabase-id.payload';
+import {GetUserByEmailPayload} from '@app/micro/micro/rabbitmq/dto/clients/get-user-by-email.payload';
 import {RabbitMQResultDto} from '@app/micro/micro/rabbitmq/dto/common/RabbitMQResult.dto';
 import {clientsPatterns} from '@app/micro/micro/rabbitmq/message-patterns/clients/clients-patterns';
-import {IdParamDto} from '@app/validation/validation';
+import {EmailQueryDto} from '@app/validation/validation/email.query.dto';
 import {
   Controller,
   ForbiddenException,
@@ -11,8 +11,8 @@ import {
   HttpStatus,
   Inject,
   Logger,
-  Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import {ClientProxy} from '@nestjs/microservices';
 import {AuthUser} from '@supabase/supabase-js';
@@ -27,22 +27,21 @@ export class UsersController {
     @Inject('CLIENTS') private readonly clientsService: ClientProxy,
   ) {}
 
-  @Get('supabase/:id')
-  async getUserBySupabaseId(
+  @Get()
+  async getUserByEmail(
     @CurrentUser() currentUser: AuthUser,
-    @Param() {id}: IdParamDto,
+    @Query() {email}: EmailQueryDto,
   ) {
     return this.clientsService
-      .send<RabbitMQResultDto<unknown>, GetUserBySupabaseIdPayload>(
-        clientsPatterns.getUserBySupabaseId,
+      .send<RabbitMQResultDto<unknown>, GetUserByEmailPayload>(
+        clientsPatterns.getUserByEmail,
         {
           requestingUser: currentUser,
-          supabaseId: id,
+          email,
         },
       )
       .pipe(
         map((result) => {
-          this.logger.log(result);
           if (result.status === HttpStatus.OK && result.body) {
             return result.body;
           }

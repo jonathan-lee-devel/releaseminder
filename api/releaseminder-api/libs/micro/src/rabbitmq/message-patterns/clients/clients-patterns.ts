@@ -1,3 +1,3 @@
 export const clientsPatterns = {
-  getUserBySupabaseId: {cmd: 'clients.get_user_by_supabase_id'},
+  getUserByEmail: {cmd: 'clients.get_user_by_email'},
 } as const;
