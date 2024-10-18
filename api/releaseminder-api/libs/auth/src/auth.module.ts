@@ -17,6 +17,6 @@ import {SupabaseJwtStrategy} from './supabase/strategies/supabase-jwt.strategy';
     }),
   ],
   providers: [SupabaseJwtStrategy, ConfigService],
-  exports: [],
+  exports: [SupabaseJwtStrategy],
 })
 export class AuthModule {}

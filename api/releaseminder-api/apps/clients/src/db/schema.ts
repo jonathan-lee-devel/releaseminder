@@ -4,6 +4,7 @@ import {pgTable, text, timestamp, uuid} from 'drizzle-orm/pg-core';
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().notNull().primaryKey(),
   supabaseUserId: uuid('supabase_user_id').notNull(),
+  email: text('email').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
