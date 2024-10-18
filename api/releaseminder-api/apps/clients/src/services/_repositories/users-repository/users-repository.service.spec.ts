@@ -30,7 +30,7 @@ describe('UsersRepositoryService', () => {
 
     const db = drizzle(postgresClient, {schema});
     await migrate(db, {
-      migrationsFolder: 'apps/clients/drizzle',
+      migrationsFolder: './apps/clients/drizzle',
     });
   });
 
@@ -46,6 +46,7 @@ describe('UsersRepositoryService', () => {
           logger: new Logger(ClientsModule.name),
           serviceName: 'CLIENTS',
           schema,
+          connectionUrl: postgresContainer.getConnectionUri(),
         }),
       ],
       providers: [UsersRepositoryService],
