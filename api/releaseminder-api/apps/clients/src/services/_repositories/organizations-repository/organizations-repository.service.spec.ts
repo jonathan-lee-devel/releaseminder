@@ -1,4 +1,5 @@
 import {DbModule} from '@app/db/db';
+import {delayedAction} from '@app/util/util/testing.utils';
 import {faker} from '@faker-js/faker/locale/en_US';
 import {Logger} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
@@ -34,14 +35,7 @@ describe('OrganizationsRepositoryService', () => {
     await migrate(db, {
       migrationsFolder: './apps/clients/drizzle',
     });
-  });
 
-  afterAll(async () => {
-    await postgresClient.end();
-    await postgresContainer.stop();
-  });
-
-  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         DbModule.register({
@@ -60,6 +54,13 @@ describe('OrganizationsRepositoryService', () => {
     usersRepositoryService = module.get<UsersRepositoryService>(
       UsersRepositoryService,
     );
+  });
+
+  afterAll(async () => {
+    await postgresClient.end();
+    await delayedAction(async () => {
+      await postgresContainer.stop();
+    }, 15_000);
   });
 
   it('should be defined', () => {

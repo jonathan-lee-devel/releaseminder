@@ -1,4 +1,5 @@
 import {DbModule} from '@app/db/db';
+import {delayedAction} from '@app/util/util/testing.utils';
 import {faker} from '@faker-js/faker/locale/en_US';
 import {Logger} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
@@ -36,7 +37,9 @@ describe('UsersRepositoryService', () => {
 
   afterAll(async () => {
     await postgresClient.end();
-    await postgresContainer.stop();
+    await delayedAction(async () => {
+      await postgresContainer.stop();
+    }, 15_000);
   });
 
   beforeEach(async () => {
