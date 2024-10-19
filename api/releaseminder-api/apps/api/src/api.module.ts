@@ -9,7 +9,6 @@ import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 import {ApiController} from './controllers/api/api.controller';
 import {ApplicationMessagesController} from './controllers/application-messages/application-messages.controller';
 import {NotificationsController} from './controllers/notifications/notifications.controller';
-import {PaymentsController} from './controllers/payments/payments.controller';
 import {UsersController} from './controllers/users/users.controller';
 import {ApiService} from './services/api/api.service';
 
@@ -48,7 +47,6 @@ import {ApiService} from './services/api/api.service';
   controllers: [
     ApiController,
     UsersController,
-    PaymentsController,
     ApplicationMessagesController,
     NotificationsController,
   ],

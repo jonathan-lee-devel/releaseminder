@@ -1,20 +1,17 @@
 import {HttpInterceptorFn} from '@angular/common/http';
 import {inject} from '@angular/core';
 
-import {TenantStore} from '../../+state/tenant/tenant.store';
-import {SupabaseService} from '../../services/supabase/supabase.service';
+import {AuthService} from '../../services/auth/auth.service';
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
-  const tenantStore = inject(TenantStore);
-  const supabaseService = inject(SupabaseService);
+  const authService = inject(AuthService);
   if (
-    (/(https):\/\/(.*).releaseminder.io/.test(req.url) ||
-      /(http):\/\/test.local.api.releaseminder.io:8080/.test(req.url) ||
-      new RegExp('/(https)://(.*).' + tenantStore.customHostname() + '/').test(req.url))) {
+    (/(https):\/\/(.*).roomyledger.com/.test(req.url) ||
+      /(http):\/\/localhost:3000/.test(req.url))) {
     return next(req.clone({
       withCredentials: true,
       setHeaders: {
-        'Authorization': `Bearer ${supabaseService.session?.access_token}`,
+        'Authorization': `Bearer ${authService.getTokensFromLocalStorage().accessToken}`,
       }}));
   }
 

@@ -1,8 +1,7 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {TenantStore} from '../../+state/tenant/tenant.store';
 import {environment} from '../../../environments/environment';
 import {StripeCheckoutSessionQueryResponse} from '../../dtos/stripe/StripeCheckoutSessionQueryResponse';
 
@@ -10,12 +9,9 @@ import {StripeCheckoutSessionQueryResponse} from '../../dtos/stripe/StripeChecko
   providedIn: 'root',
 })
 export class StripeService {
-  private readonly httpClient = inject(HttpClient);
-  private readonly tenantStore = inject(TenantStore);
+  constructor(private readonly httpClient: HttpClient) { }
 
   verifyCheckoutSession(stripeCheckoutSessionId: string): Observable<StripeCheckoutSessionQueryResponse> {
-    return this.httpClient.get<StripeCheckoutSessionQueryResponse>(
-        this.tenantStore.getFullRequestUrl(`${environment.PAYMENTS_SERVICE_BASE_URL}/stripe/query-checkout-session/${stripeCheckoutSessionId}`),
-    );
+    return this.httpClient.get<StripeCheckoutSessionQueryResponse>(`${environment.PAYMENTS_SERVICE_BASE_URL}/stripe/query-checkout-session/${stripeCheckoutSessionId}`);
   }
 }
