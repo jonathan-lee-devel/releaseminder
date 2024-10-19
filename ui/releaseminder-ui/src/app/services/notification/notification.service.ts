@@ -1,20 +1,19 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {TenantStore} from '../../+state/tenant/tenant.store';
 import {environment} from '../../../environments/environment';
 import {NotificationDto} from '../../dtos/notifications/Notification.dto';
+import {TenantService} from '../tenant/tenant.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  private readonly httpClient = inject(HttpClient);
-  private readonly tenantStore = inject(TenantStore);
+  constructor(private readonly httpClient: HttpClient, private readonly tenantService: TenantService) {}
 
   getAllNotificationsForUser() {
     return this.httpClient.get<NotificationDto[]>(
-        this.tenantStore.getFullRequestUrl(
+        this.tenantService.getFullApiPath(
             `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/for-user`,
         ),
     );
@@ -22,35 +21,27 @@ export class NotificationService {
 
   acknowledgeAllNotificationsForUser() {
     return this.httpClient.patch<NotificationDto[]>(
-        this.tenantStore.getFullRequestUrl(
-            `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/for-user`,
-        ),
+        `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/for-user`,
         {},
     );
   }
 
   deleteAllNotificationsForUser() {
     return this.httpClient.delete<NotificationDto[]>(
-        this.tenantStore.getFullRequestUrl(
-            `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/for-user`,
-        ),
+        `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/for-user`,
     );
   }
 
   acknowledgeNotificationById(notificationId: string) {
     return this.httpClient.patch<NotificationDto>(
-        this.tenantStore.getFullRequestUrl(
-            `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/${notificationId}`,
-        ),
+        `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/${notificationId}`,
         {},
     );
   }
 
   deleteNotificationById(notificationId: string) {
     return this.httpClient.delete<NotificationDto>(
-        this.tenantStore.getFullRequestUrl(
-            `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/${notificationId}`,
-        ),
+        `${environment.NOTIFICATIONS_SERVICE_BASE_URL}/${notificationId}`,
     );
   }
 }

@@ -5,6 +5,7 @@ import {take} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {rebaseRoutePath, RoutePath} from '../../app.routes';
+import {TokensDto} from '../../dtos/auth/TokensDto';
 import {UserProfile} from '../../dtos/auth/UserProfile';
 import {AuthService} from '../../services/auth/auth.service';
 import {SupabaseService} from '../../services/supabase/supabase.service';
@@ -16,6 +17,7 @@ export type LoggedInState = 'INIT' | 'NOT_LOGGED_IN' | 'LOADING' | 'LOGGED_IN';
 
 export type UserAuthenticationState = {
   loggedInState: LoggedInState;
+  tokens: TokensDto;
   userInfo: UserProfile;
   isDarkMode: boolean;
   isSidebarOpen: boolean;
@@ -23,6 +25,7 @@ export type UserAuthenticationState = {
 
 const initialState: UserAuthenticationState = {
   loggedInState: 'INIT',
+  tokens: {accessToken: '', refreshToken: ''},
   userInfo: {
     email: '',
     displayName: '',
@@ -56,7 +59,8 @@ export const UserAuthenticationStore = signalStore(
           authService.setDarkModeSettingInLocalStorage(false);
           patchState(store, {isDarkMode: false});
         },
-        onLoginComplete: async (userInfo: UserProfile) => {
+        onLoginComplete: async (tokens: {accessToken: string; refreshToken: string}, userInfo: UserProfile) => {
+          authService.setTokensInLocalStorage(tokens);
           authService.setUserInfoInLocalStorage(userInfo);
           const next = authService.getNextParamFromLocalStorageAndNoReset();
           if (next) {
@@ -64,17 +68,15 @@ export const UserAuthenticationStore = signalStore(
                 .navigateByUrl(next)
                 .catch(RouterUtils.navigateCatchErrorCallback);
           }
-          patchState(store, {loggedInState: 'LOGGED_IN', userInfo});
+          patchState(store, {loggedInState: 'LOGGED_IN', tokens, userInfo});
         },
         userCheckIn: () => {
-          if (store.loggedInState() === 'LOGGED_IN') {
-            authService.checkIn({
-              email: supabaseService.session?.user?.email ?? '',
-              displayName: supabaseService.session?.user?.user_metadata['name'],
-            }).pipe(
-                take(1),
-            ).subscribe();
-          }
+          authService.checkIn({email: 'jonathan', displayName: 'jonathan'}).pipe(
+              take(1),
+          ).subscribe();
+          // authService.checkIn({email: supabaseService.session?.user?.email ?? '', displayName: supabaseService.session?.user?.user_metadata['name']}).pipe(
+          //     take(1),
+          // ).subscribe();
         },
         logout: async () => {
           router.navigate([rebaseRoutePath(RoutePath.LOGOUT_IN_PROGRESS)])
@@ -156,11 +158,10 @@ export const UserAuthenticationStore = signalStore(
           }
         },
         checkLoginOnRefresh: () => {
+          const {accessToken, refreshToken} = authService.getTokensFromLocalStorage();
           const userInfo = authService.getUserInfoFromLocalStorage();
-          if (supabaseService.session?.access_token &&
-            supabaseService.session?.access_token !== '' &&
-            userInfo) {
-            store.onLoginComplete(userInfo)
+          if (accessToken !== '' && refreshToken !== '' && userInfo) {
+            store.onLoginComplete({accessToken: accessToken, refreshToken}, userInfo)
                 .catch((reason) => console.error(reason));
           }
         },
@@ -178,10 +179,10 @@ export const UserAuthenticationStore = signalStore(
       };
     }),
     withComputed((store) => {
-      const supabaseService = inject(SupabaseService);
       return {
+        currentAccessToken: computed(() => store.tokens().accessToken),
         currentUserEmail: computed(() => store.userInfo().email),
-        currentUserId: computed(() => supabaseService?.session?.user.id),
+        currentUserId: computed(() => 'ba310337-7a8b-4c92-97ca-54b59f40b70a'),
         isLoggedIn: computed(() => store.loggedInState() === 'LOGGED_IN'),
       };
     }),

@@ -1,12 +1,13 @@
 import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {TenantStore} from '../../+state/tenant/tenant.store';
 import {environment} from '../../../environments/environment';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../app.routes';
+import {TokensDto} from '../../dtos/auth/TokensDto';
 import {UserProfile} from '../../dtos/auth/UserProfile';
 import {RouterUtils} from '../../util/router/Router.utils';
+import {TenantService} from '../tenant/tenant.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +19,15 @@ export class AuthService {
   static readonly refreshTokenKey = 'refresh-token';
   static readonly nextParam = 'next';
 
-  private readonly httpClient = inject(HttpClient);
-  private readonly router = inject(Router);
-  private readonly tenantStore = inject(TenantStore);
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly router: Router,
+    private readonly tenantService: TenantService,
+  ) {}
 
   checkIn(userInfo: UserProfile) {
     return this.httpClient.post<{isAcknowledged: boolean}>(
-        this.tenantStore.getFullRequestUrl(`${environment.USERS_SERVICE_BASE_URL}/authenticated/check-in`),
+        this.tenantService.getFullApiPath(`${environment.USERS_SERVICE_BASE_URL}/authenticated/check-in`),
         userInfo,
     );
   }
@@ -63,10 +66,23 @@ export class AuthService {
     localStorage.removeItem(AuthService.refreshTokenKey);
   }
 
+  public getTokensFromLocalStorage(): TokensDto {
+    const accessToken = localStorage.getItem(AuthService.accessTokenKey);
+    const refreshToken = localStorage.getItem(AuthService.refreshTokenKey);
+    return accessToken && refreshToken ?
+      {accessToken: accessToken, refreshToken} :
+      {accessToken: '', refreshToken: ''};
+  }
+
   // TODO: use profile DTO
   public getUserInfoFromLocalStorage() {
     const userInfo = localStorage.getItem(AuthService.userDataKey);
     return userInfo ? (JSON.parse(userInfo) as UserProfile) : null;
+  }
+
+  public setTokensInLocalStorage(tokens: TokensDto) {
+    localStorage.setItem(AuthService.accessTokenKey, tokens.accessToken);
+    localStorage.setItem(AuthService.refreshTokenKey, tokens.refreshToken);
   }
 
   public setUserInfoInLocalStorage(userInfo: UserProfile) {
