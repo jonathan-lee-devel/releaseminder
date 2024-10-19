@@ -25,7 +25,6 @@ describe('SidebarComponent', () => {
         withState<UserAuthenticationState>(
             {
               loggedInState: 'NOT_LOGGED_IN',
-              tokens: {accessToken: '', refreshToken: ''},
               userInfo: {
                 email: '',
                 displayName: '',
