@@ -90,20 +90,11 @@ export class AppService {
         return;
       }
       this.userAuthenticationStore
-          .onLoginComplete(
-              {
-                accessToken: session?.access_token ?? '',
-                refreshToken: session?.refresh_token ?? '',
-              },
-              {
-                email: session?.user?.email ?? '',
-                displayName: session?.user?.user_metadata?.['name'] ?? '',
-              },
-          )
+          .onLoginComplete({email: session?.user?.email ?? '', displayName: session?.user?.user_metadata['name'] ?? ''})
           .then(() => {
             if (
               this.userAuthenticationStore.loggedInState() === 'LOGGED_IN' &&
-            this.supabaseService.session
+            this.supabaseService.session?.access_token
             ) {
               this.userAuthenticationStore.userCheckIn();
               this.paymentStore.loadPaymentStatus();
