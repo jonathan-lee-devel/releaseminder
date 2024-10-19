@@ -7,6 +7,7 @@ interface DbModuleOptions {
   logger: Logger;
   serviceName: string;
   schema: any;
+  connectionUrl?: string;
 }
 
 @Module({
@@ -23,20 +24,22 @@ export class DbModule {
     logger,
     serviceName,
     schema,
+    connectionUrl,
   }: DbModuleOptions): DynamicModule {
     const providers: Provider[] = [
       {
         provide: `${serviceName}_DATABASE_CONNECTION`,
         useFactory: (configService: ConfigService) => {
           const pool = new Pool({
-            connectionString: configService.getOrThrow<string>(
-              `${serviceName}_DATABASE_URL`,
-            ),
+            connectionString:
+              connectionUrl ??
+              configService.getOrThrow<string>(`${serviceName}_DATABASE_URL`),
           });
           logger.log(
-            `Connected to ${configService.getOrThrow<string>(
-              `${serviceName}_DATABASE_URL`,
-            )}`,
+            `Connected to ${
+              connectionUrl ??
+              configService.getOrThrow<string>(`${serviceName}_DATABASE_URL`)
+            }`,
           );
           return drizzle(pool, {schema: {...schema}});
         },

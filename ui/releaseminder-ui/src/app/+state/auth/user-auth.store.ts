@@ -15,11 +15,12 @@ import {NotificationsStore} from '../notifications/notifications.store';
 
 export type LoggedInState = 'INIT' | 'NOT_LOGGED_IN' | 'LOADING' | 'LOGGED_IN';
 
-type UserAuthenticationState = {
+export type UserAuthenticationState = {
   loggedInState: LoggedInState;
   tokens: TokensDto;
   userInfo: UserProfile;
   isDarkMode: boolean;
+  isSidebarOpen: boolean;
 }
 
 const initialState: UserAuthenticationState = {
@@ -30,6 +31,7 @@ const initialState: UserAuthenticationState = {
     displayName: '',
   },
   isDarkMode: false,
+  isSidebarOpen: false,
 };
 
 export const UserAuthenticationStore = signalStore(
@@ -42,6 +44,9 @@ export const UserAuthenticationStore = signalStore(
       const document = inject(Document);
       const supabaseService = inject(SupabaseService);
       return {
+        setIsSidebarOpen: (isSidebarOpen: boolean) => {
+          patchState(store, {isSidebarOpen});
+        },
         setDarkModeEnabled: () => {
           const linkElement = document.getElementById('app-theme') as unknown as HTMLLinkElement;
           linkElement.href = 'theme-dark.css';
