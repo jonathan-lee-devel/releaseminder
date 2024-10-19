@@ -17,6 +17,4 @@ export const environment = {
   APPLICATION_MESSAGES_SERVICE_BASE_URL: 'v1/application-messages',
   USERS_SERVICE_BASE_URL: 'v1/users',
   NOTIFICATIONS_SERVICE_BASE_URL: 'v1/notifications',
-  PROPERTIES_SERVICE_BASE_URL: 'v1/ledgers/properties',
-  EXPENSES_SERVICE_BASE_URL: 'v1/ledgers/expenses',
 };
