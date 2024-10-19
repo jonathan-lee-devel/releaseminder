@@ -1,13 +1,13 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
+import {TenantStore} from '../../+state/tenant/tenant.store';
 import {environment} from '../../../environments/environment';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../app.routes';
 import {TokensDto} from '../../dtos/auth/TokensDto';
 import {UserProfile} from '../../dtos/auth/UserProfile';
 import {RouterUtils} from '../../util/router/Router.utils';
-import {TenantService} from '../tenant/tenant.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +19,13 @@ export class AuthService {
   static readonly refreshTokenKey = 'refresh-token';
   static readonly nextParam = 'next';
 
-  constructor(
-    private readonly httpClient: HttpClient,
-    private readonly router: Router,
-    private readonly tenantService: TenantService,
-  ) {}
+  private readonly httpClient = inject(HttpClient);
+  private readonly router = inject(Router);
+  private readonly tenantStore = inject(TenantStore);
 
   checkIn(userInfo: UserProfile) {
     return this.httpClient.post<{isAcknowledged: boolean}>(
-        this.tenantService.getFullApiPath(`${environment.USERS_SERVICE_BASE_URL}/authenticated/check-in`),
+        this.tenantStore.getFullRequestUrl(`${environment.USERS_SERVICE_BASE_URL}/authenticated/check-in`),
         userInfo,
     );
   }
