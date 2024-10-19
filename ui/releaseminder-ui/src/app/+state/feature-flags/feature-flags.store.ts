@@ -4,12 +4,12 @@ import {patchState, signalStore, withComputed, withMethods, withState} from '@ng
 import {FeatureFlagDto} from '../../dtos/feature-flags/FeatureFlag.dto';
 import {FeatureFlagEnum} from '../../enums/FeatureFlag.enum';
 
-type FeatureFlagState = {
+export type FeatureFlagsState = {
   featureFlags: FeatureFlagDto[];
   isLoading: boolean;
 };
 
-const initialState: FeatureFlagState = {
+const initialState: FeatureFlagsState = {
   featureFlags: [],
   isLoading: false,
 };

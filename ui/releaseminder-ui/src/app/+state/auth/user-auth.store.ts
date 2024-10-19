@@ -15,7 +15,7 @@ import {NotificationsStore} from '../notifications/notifications.store';
 
 export type LoggedInState = 'INIT' | 'NOT_LOGGED_IN' | 'LOADING' | 'LOGGED_IN';
 
-type UserAuthenticationState = {
+export type UserAuthenticationState = {
   loggedInState: LoggedInState;
   tokens: TokensDto;
   userInfo: UserProfile;

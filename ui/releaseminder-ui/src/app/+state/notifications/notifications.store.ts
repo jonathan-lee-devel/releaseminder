@@ -1,18 +1,12 @@
 import {computed, inject} from '@angular/core';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
+import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
 import {ConfirmationService} from 'primeng/api';
 import {take, tap} from 'rxjs';
 
 import {NotificationDto} from '../../dtos/notifications/Notification.dto';
 import {NotificationService} from '../../services/notification/notification.service';
 
-type NotificationsState = {
+export type NotificationsState = {
   notifications: NotificationDto[];
   isLoading: boolean;
 };
