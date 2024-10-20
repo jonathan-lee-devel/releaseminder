@@ -1,5 +1,4 @@
 import {Injectable} from '@nestjs/common';
-import {ConfigService} from '@nestjs/config';
 import {JwtService} from '@nestjs/jwt';
 import {PassportStrategy} from '@nestjs/passport';
 import {Request} from 'express';
@@ -8,6 +7,7 @@ import {UNAUTHORIZED} from 'nestjs-supabase-auth';
 import {ExtractJwt} from 'passport-jwt';
 import {ParsedQs} from 'qs';
 
+import {SupabaseConfig} from '../../../../../apps/api/src/config/supabase.config';
 import {SupabaseAuthStrategy} from '../passport/passport-supabase.strategy';
 
 @Injectable()
@@ -16,19 +16,17 @@ export class SupabaseJwtStrategy extends PassportStrategy(
   'supabase-jwt',
 ) {
   public constructor(
-    configService: ConfigService,
+    supabaseConfig: SupabaseConfig,
     private readonly jwtService: JwtService,
   ) {
     super({
-      supabaseUrl: configService.getOrThrow<string>('SUPABASE_URL'),
-      supabaseKey: configService.getOrThrow<string>('SUPABASE_KEY'),
+      supabaseUrl: supabaseConfig.url,
+      supabaseKey: supabaseConfig.publicKey,
       supabaseOptions: {},
-      supabaseJwtSecret: configService.getOrThrow<string>(
-        'SUPABASE_JWT_SECRET',
-      ),
+      supabaseJwtSecret: supabaseConfig.jwtSecret,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.getOrThrow<string>('SUPABASE_JWT_SECRET'),
+      secretOrKey: supabaseConfig.jwtSecret,
       extractor: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
