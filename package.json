@@ -5,7 +5,13 @@
   "scripts": {
     "lint": "pnpm run api:lint && pnpm run ui:lint",
     "api:lint": "cd api/releaseminder-api && pnpm run lint",
-    "ui:lint": "cd api/releaseminder-api && pnpm run lint",
+    "ui:lint": "cd ui/releaseminder-ui && pnpm run lint",
+    "build": "pnpm run api:build && pnpm run ui:build",
+    "api:build": "cd api/releaseminder-api && pnpm run build",
+    "ui:build": "cd ui/releaseminder-ui && pnpm run build",
+    "test": "pnpm run api:test && pnpm run ui:test",
+    "api:test": "cd api/releaseminder-api && pnpm run test",
+    "ui:test": "cd ui/releaseminder-ui && pnpm run test",
     "prepare": "husky"
   },
   "keywords": [],
