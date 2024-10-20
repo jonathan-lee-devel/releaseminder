@@ -1,8 +1,9 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {PaymentStatus} from '../../+state/payment/payment.store';
+import {TenantStore} from '../../+state/tenant/tenant.store';
 import {environment} from '../../../environments/environment';
 import {TrialAndSubscriptionsForUserDto} from '../../dtos/payments/TrialAndSubscriptionsForUser.dto';
 
@@ -10,26 +11,31 @@ import {TrialAndSubscriptionsForUserDto} from '../../dtos/payments/TrialAndSubsc
   providedIn: 'root',
 })
 export class PaymentsService {
-  constructor(private readonly httpClient: HttpClient) {}
+  private readonly httpClient = inject(HttpClient);
+  private readonly tenantStore = inject(TenantStore);
 
   getPaymentStatusForLoggedInCustomer(): Observable<{
     status: PaymentStatus;
     trialEndDate?: string;
   }> {
     return this.httpClient.get<{status: PaymentStatus; trialEndDate?: string}>(
-        `${environment.PAYMENTS_SERVICE_BASE_URL}/customer-status`,
+        this.tenantStore.getFullRequestUrl(`${environment.PAYMENTS_SERVICE_BASE_URL}/customer-status`),
     );
   }
 
   getActiveSubscriptionsForLoggedInCustomer() {
     return this.httpClient.get<TrialAndSubscriptionsForUserDto>(
-        `${environment.PAYMENTS_SERVICE_BASE_URL}/stripe/subscriptions/for-user`,
+        this.tenantStore.getFullRequestUrl(
+            `${environment.PAYMENTS_SERVICE_BASE_URL}/stripe/subscriptions/for-user`,
+        ),
     );
   }
 
   cancelSubscriptions() {
     return this.httpClient.patch<unknown>(
-        `${environment.PAYMENTS_SERVICE_BASE_URL}/stripe/controls/cancel-subscription`,
+        this.tenantStore.getFullRequestUrl(
+            `${environment.PAYMENTS_SERVICE_BASE_URL}/stripe/controls/cancel-subscription`,
+        ),
         {},
     );
   }
