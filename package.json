@@ -3,15 +3,22 @@
   "version": "0.0.1",
   "description": "Software Development - Project planning and release tracking software",
   "scripts": {
-    "lint": "pnpm run api:lint && pnpm run ui:lint",
-    "api:lint": "cd api/releaseminder-api && pnpm run lint",
-    "ui:lint": "cd api/releaseminder-api && pnpm run lint",
+    "lint": "concurrently -c \"blue.bold,green.bold\" pnpm:lint:*",
+    "lint:api": "cd api/releaseminder-api && pnpm run lint",
+    "lint:ui": "cd ui/releaseminder-ui && pnpm run lint",
+    "build": "concurrently -c \"blue.bold,green.bold\" pnpm:build:*",
+    "build:api": "cd api/releaseminder-api && pnpm run build",
+    "build:ui": "cd ui/releaseminder-ui && pnpm run build",
+    "test": "concurrently -c \"blue.bold,green.bold\" pnpm:test:*",
+    "test:api": "cd api/releaseminder-api && pnpm run test",
+    "test:ui": "cd ui/releaseminder-ui && pnpm run test",
     "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "concurrently": "^9.0.1",
     "husky": "^9.1.6"
   }
 }
